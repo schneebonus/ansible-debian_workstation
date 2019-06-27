@@ -1,0 +1,86 @@
+general {
+        output_format = "i3bar"
+        colors = true
+        interval = 1
+}
+
+order += "ethernet tun0"
+order += "frame wifi"
+order += "wifi wlp3s0"
+order += "ethernet enp0s25"
+order += "battery all"
+# order += "volume master"
+order += "volume_status"
+order += "spotify"
+order += "backlight"
+order += "tztime berlin"
+
+
+volume_status {
+    format = '[\?if=is_input 😮|]: {percentage}%'
+    format_muted = '[\?if=is_input 😶|]: {percentage}% (muted)'
+    cache_timeout = 0.5
+    # thresholds = [(0, 'good'), (5, 'degraded'), (20, 'degraded'), (50, 'bad')]
+}
+
+spotify {
+    button_next = 4
+    button_play_pause = 1
+    button_previous = 5
+    format = "{title} by {artist}"
+    format_down = ""
+}
+
+wifi wlp3s0 {
+	format_up = "  {ssid}"
+        format_down = ""
+	device = "wlp3s0"
+}
+
+
+frame wifi {
+	format = '{output}{button}'
+	open = false
+	format_separator = "|"
+	format_button_closed = ""
+	format_button_open = ""
+	wireless wlp3s0 {
+		format_up = "%quality | %bitrate | %ip"
+		format_down = ""
+	}
+}
+
+ethernet tun0 {
+	format_up = " %ip (%speed)"
+	format_down = ""
+}
+
+ethernet enp0s25 {
+        # if you use %speed, i3status requires the cap_net_admin capability
+        format_up = "%ip (%speed)"
+        format_down = ""
+}
+
+battery all {
+	format = " %status %percentage (%remaining at %consumption)"
+        format_down = "No battery"
+        status_chr = ""
+        status_bat = ""
+        status_unk = ""
+        status_full = ""
+        path = "/sys/class/power_supply/BAT%d/uevent"
+        low_threshold = 30
+	last_full_capacity = true
+	hide_seconds = true
+}
+
+tztime berlin {
+        format = " %d.%m-%H:%M"
+        timezone = "Europe/Berlin"
+}
+
+volume master {
+        format = ": %volume"
+        format_muted = ": muted (%volume)"
+        device = "pulse:0"
+}

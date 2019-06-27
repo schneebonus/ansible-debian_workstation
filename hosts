@@ -1,0 +1,5 @@
+[test-vm]
+192.168.122.21
+
+[all:vars]
+ansible_user=root

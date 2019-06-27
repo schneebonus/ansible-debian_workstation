@@ -1,0 +1,7 @@
+
+- name: Install communication packages
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - thunderbird

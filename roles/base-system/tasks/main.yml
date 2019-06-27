@@ -1,0 +1,33 @@
+- name: Update and upgrade apt packages
+  become: true
+  apt:
+    upgrade: yes
+    update_cache: yes
+    cache_valid_time: 86400 #One day
+
+- name: Install base system
+  apt:
+    name: "{{ packages }}"
+    state: latest
+    update_cache: yes
+  vars:
+    packages:
+    - aptitude
+    - git
+    - htop
+    - screen
+    - nano
+    - gnome-terminal
+    - tmux
+    - python3-setuptools
+    - python3-pip
+    - sudo
+    - network-manager
+    - network-manager-gnome
+    - wireless-tools
+
+- name: Allow user null on host debian to shutdown and reboot the system
+  lineinfile:
+    path: /etc/sudoers
+    line: "null debian =NOPASSWD: /usr/bin/systemctl poweroff,/usr/bin/systemctl halt,/usr/bin/systemctl reboot"
+    create: yes

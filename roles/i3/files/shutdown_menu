@@ -1,0 +1,13 @@
+#!/bin/sh
+
+choices="suspend\nhibernate\nshutdown\nreboot"
+
+chosen=$(echo -e "$choices" | dmenu -i -l 4)
+
+case "$chosen" in
+	suspend) systemctl suspend && ~/.config/i3/lock.sh;;
+	hibernate) systemctl hibernate ;;
+	shutdown) systemctl poweroff;;
+	reboot) systemctl reboot;;
+esac
+

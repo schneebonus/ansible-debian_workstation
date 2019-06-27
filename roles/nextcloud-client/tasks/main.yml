@@ -1,0 +1,20 @@
+- name: Add Nextcloud client repository
+  apt_repository:
+    repo: deb http://ppa.launchpad.net/nextcloud-devs/client/ubuntu zesty main 
+    state: present
+
+- name: Add Nextcloud client source repository
+  apt_repository:
+    repo: deb-src http://ppa.launchpad.net/nextcloud-devs/client/ubuntu zesty main
+    state: present
+
+- name: Add Keys for Nextcloud repository
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 1FCD77DD0DBEF5699AD2610160EE47FBAD3DD469
+    state: present
+
+- name: Update repository and install nextcloud client
+  apt:
+    name: nextcloud-client
+    update_cache: yes

@@ -1,0 +1,9 @@
+- name: Install basic browsers
+  apt:
+    name: "{{ packages }}"
+    state: latest
+    update_cache: yes
+  vars:
+    packages:
+    - chromium
+    - chromium-l10n
