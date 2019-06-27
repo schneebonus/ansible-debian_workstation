@@ -16,13 +16,13 @@
 
 - name: Create i3 config directory if it does not exist
   file:
-    path: /home/null/.config/i3
+    path: "/home/{{ username }}/.config/i3"
     state: directory
     mode: '0755'
 
 - name: Create font directory if it does not exist
   file:
-    path: /home/null/.fonts
+    path: "/home/{{ username }}/.fonts"
     state: directory
     mode: '0755'
 
@@ -30,9 +30,9 @@
 - name: Copy i3 config files and helper scripts
   copy:
     src: "{{ item }}"
-    dest: /home/null/.config/i3/
-    owner: null
-    group: null
+    dest: "/home/{{ username }}/.config/i3/"
+    owner: "{{ username }}"
+    group: "{{ username }}"
     mode: 0755
   with_fileglob:
     - "{{ role_path }}/files/*"
@@ -40,9 +40,9 @@
 - name: Copy fonts
   copy:
     src: "{{ item }}"
-    dest: /home/null/.fonts/
-    owner: null
-    group: null
+    dest: "/home/{{ username }}/.fonts/"
+    owner: "{{ username }}"
+    group: "{{ username }}"
     mode: 0644
   with_fileglob:
     - "{{ role_path }}/fonts/*"

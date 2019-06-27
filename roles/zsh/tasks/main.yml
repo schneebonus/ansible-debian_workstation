@@ -6,30 +6,22 @@
 - name: Cloning oh-my-zsh
   git:
     repo=https://github.com/robbyrussell/oh-my-zsh
-    dest="/home/null/.oh-my-zsh"
+    dest="/home/{{ username }}/.oh-my-zsh"
   become: true
-  become_user: null
-  become_method: sudo
-
-- name: Creating new ~/.zshrc
-  copy:
-    src=~/.oh-my-zsh/templates/zshrc.zsh-template
-    dest=~/.zshrc
-  become: true
-  become_user: null
+  become_user: "{{ username }}"
   become_method: sudo
 
 - name: set zsh default shell for null
-  shell: chsh -s $(which zsh)
+  shell: "chsh -s $(which zsh)"
   become: true
-  become_user: null
+  become_user: "{{ username }}"
   become_method: sudo
 
 - name: Copy zshrc to get configuration
   copy:
     src: "{{ role_path}}/files/.zshrc"
-    dest: /home/null/.zshrc
-    owner: null
-    group: null
+    dest: "/home/{{ username }}/.zshrc"
+    owner: "{{ username }}"
+    group: "{{ username }}"
     mode: '0644'
 

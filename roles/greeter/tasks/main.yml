@@ -1,0 +1,9 @@
+- name: Install lightdm
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - lightdm
+
+- name: Change display manager to lightdm
+  shell: dpkg-reconfigure lightdm

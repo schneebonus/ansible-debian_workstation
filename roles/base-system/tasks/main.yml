@@ -26,8 +26,8 @@
     - network-manager-gnome
     - wireless-tools
 
-- name: Allow user null on host debian to shutdown and reboot the system
+- name: Allow user {{ username }} on host {{ hostname }} to shutdown and reboot the system
   lineinfile:
     path: /etc/sudoers
-    line: "null debian =NOPASSWD: /usr/bin/systemctl poweroff,/usr/bin/systemctl halt,/usr/bin/systemctl reboot"
+    line: "{{ username }} {{ inventory_hostname }} =NOPASSWD: /usr/bin/systemctl poweroff,/usr/bin/systemctl halt,/usr/bin/systemctl reboot"
     create: yes

@@ -1,11 +1,14 @@
 - hosts: test-vm
   roles:
     - base-system	# work in progress
+    - greeter		# ?
     - i3		# done
     - i3status		# done
     - nextcloud-client	# done
-    - zsh		# not done
+    - zsh		# done
     - communication	# ToDo: franz
     - pdf		# done but could have security improvements / isolation
     - security		# done
     - browsers		# chromium only and plugins missing
+  vars:
+    username: null
