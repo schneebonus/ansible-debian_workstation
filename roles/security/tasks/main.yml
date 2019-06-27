@@ -1,7 +1,17 @@
+- name: Add lynis apt key
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: C80E383C3DE9F082E01391A0366C67DE91CA5D5F
+
+- name: Add lynis repository
+  apt_repository:
+    repo: deb https://packages.cisofy.com/community/lynis/deb/ stable main
+    state: present
 
 - name: Install security tools
   apt:
     name: "{{ packages }}"
+    update_cache: yes
   vars:
     packages:
     - firejail
@@ -11,6 +21,16 @@
     - apparmor
     - apparmor-utils
     - apparmor-profiles-extra
+    - lynis
+    - fail2ban
+    - apt-listbugs
+    - debian-goodies
+    - needrestart
+    - debsums
+    - debsecan
+    - rkhunter
+    - chkrootkit
+    - libpam-passwdqc
 
 - name: "Enable apparmor in grub configuration"
   lineinfile:
@@ -39,4 +59,74 @@
 
 - name: copy aa extra profiles
   shell: 'cp -f /usr/share/doc/apparmor-profiles/extras/*.* /etc/apparmor.d/'
+
+- name: Password Max Age 365 days
+  lineinfile:
+    path: /etc/login.defs
+    regexp: '^PASS_MAX_DAYS.*'
+    line: "PASS_MAX_DAYS	365"
+    state: present
+
+- name: Password Min Age one day
+  lineinfile:
+    path: /etc/login.defs
+    regexp: '^PASS_MIN_DAYS.*'
+    line: "PASS_MIN_DAYS        1"
+    state: present
+
+- name: Password Warn Age 14
+  lineinfile:
+    path: /etc/login.defs
+    regexp: '^PASS_WARN_AGE.*'
+    line: "PASS_WARN_AGE        14"
+    state: present
+
+- name: SSH LogLevel VERBOSE
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^LogLevel.*'
+    line: "LogLevel        VERBOSE"
+    state: present
+
+- name: SSH no X11Forwarding
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^X11Forwarding.*'
+    line: "X11Forwarding no"
+    state: present
+
+- name: SSH no tcp forwarding
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^AllowTcpForwarding.*'
+    line: "AllowTcpForwarding	no"
+    state: present
+
+- name: SSH no copression
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^Compression.*'
+    line: "Compression        no"
+    state: present
+
+- name: SSH MaxAuthTries 1
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^MaxAuthTries.*'
+    line: "MaxAuthTries		1"
+    state: present
+
+- name: SSH MaxSessions 1
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^MaxSessions.*'
+    line: "MaxSessions		1"
+    state: present
+
+- name: SSH ClientAliveCountMax 1
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^ClientAliveCountMax.*'
+    line: "ClientAliveCountMax	1"
+    state: present
 

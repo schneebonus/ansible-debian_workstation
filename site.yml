@@ -12,5 +12,6 @@
     - browsers		# chromium only and plugins missing
 #    - torbrowser	# ToDo
     - qemu-guest-agent	# ToDo
+    - dnscrypt		# ToDo
   vars:
     username: null
