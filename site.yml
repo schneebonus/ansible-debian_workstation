@@ -1,7 +1,7 @@
 - hosts: workstations
   roles:
     - base-system	# work in progress
-    - greeter		# ?
+    - greeter		# done
     - i3		# done
     - i3status		# done
     - nextcloud-client	# done
@@ -10,5 +10,7 @@
     - pdf		# done but could have security improvements / isolation
     - security		# done
     - browsers		# chromium only and plugins missing
+#    - torbrowser	# ToDo
+    - qemu-guest-agent	# ToDo
   vars:
     username: null

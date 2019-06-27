@@ -1,0 +1,13 @@
+- name: Add Backport repository
+  apt_repository:
+    repo: deb http://ftp.de.debian.org/debian/ stretch-backports main contrib non-free
+    state: present
+
+#- name: Update repositories cache and install torbrowser
+#  apt:
+#    name: "{{ packages }}"
+#    default_release: stretch-backports
+#    update_cache: yes
+#  vars:
+#    packages:
+#    - torbrowser-launcher

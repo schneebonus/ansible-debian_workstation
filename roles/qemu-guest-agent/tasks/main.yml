@@ -1,0 +1,7 @@
+- name: Install qemu guest agent
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - qemu-guest-agent
+    - spice-client-gtk

@@ -1,5 +1,4 @@
 - name: Update and upgrade apt packages
-  become: true
   apt:
     upgrade: yes
     update_cache: yes
@@ -13,6 +12,7 @@
   vars:
     packages:
     - aptitude
+    - apt-transport-https
     - git
     - htop
     - screen
@@ -25,6 +25,10 @@
     - network-manager
     - network-manager-gnome
     - wireless-tools
+    - pulseaudio
+    - pulseaudio-utils
+    - pavucontrol
+    - pasystray
 
 - name: Allow user {{ username }} on host {{ hostname }} to shutdown and reboot the system
   lineinfile:

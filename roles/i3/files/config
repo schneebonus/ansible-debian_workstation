@@ -282,16 +282,13 @@ exec "gnome-terminal -e 'tmux'"
 exec nextcloud
 # exec thunderbird
 
-exec usbguard-applet-qt
+exec --no-startup-id usbguard-applet-qt
 
 # start muted
 exec --no-startup-id pactl set-sink-mute 0 1
 
-# bluetooth off
-exec --no-startup-id bluetooth off
-
-# wifi off
-exec --no-startup-id wifi off
+# pulse audio sys tray
+exec pasystray
 
 # activate monitors (if docked)
 exec_always --no-startup-id xrandr --output eDP1 --on
