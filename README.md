@@ -2,18 +2,21 @@
 Ansible project to deploy my basic workstation configuration.
 
 ## Install
+- install ansible, generate ssh keys, ... basics for host system
 - target system shloud be a minimal debian netinstall with just a ssh server running
 - put your target system into hosts
 - allow your ssh key on the target system as the user root
-- ToDo: allow other usernames than null
+- put your username into site.yml
 - choose the desired roles in site.yml
 - ansible-playbook -i hosts site.yml
+- wait for deployment to finish and grab a coffee
 
 ## Content
 - i3 desktop + configs
+- lightdm
 - basic office setup:
   - pdf viewer
-  - browser setup (addons missing)
+  - browser setup (ToDo: addons missing)
   - basic communication tools
   - nextcloud client
 - basic daily tools (git, zsh, ...)
