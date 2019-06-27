@@ -1,4 +1,4 @@
-- hosts: test-vm
+- hosts: workstations
   roles:
     - base-system	# work in progress
     - greeter		# ?

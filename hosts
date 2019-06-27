@@ -1,4 +1,4 @@
-[test-vm]
+[workstations]
 192.168.122.21
 
 [all:vars]

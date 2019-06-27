@@ -11,7 +11,7 @@ Ansible project to deploy my basic workstation configuration.
 - ansible-playbook -i hosts site.yml
 - wait for deployment to finish and grab a coffee
 
-## Content
+## Workstation configuration
 - i3 desktop + configs
 - lightdm
 - basic office setup:
