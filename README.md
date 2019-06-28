@@ -26,6 +26,7 @@ Got bored to repeat the same steps every time I have to set up a new workstation
   - thunderbird
   - rambox-os
   - nextcloud client
+  - keepassxc
 - basic daily tools (git, zsh, z, tlp, ...)
 - security hardening and improvements (lynis hardening index is 85):
   - apparmor (+ profiles + extra profiles from apparmor-gitlab)
