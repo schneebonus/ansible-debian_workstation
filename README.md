@@ -1,5 +1,6 @@
 # ansible-debian_workstation
 Ansible project to deploy my basic workstation configuration.
+Got bored to repeat the same steps every time I have to set up a new workstation - so I automated it.
 
 ## Install
 - install ansible, generate ssh keys, ... basics for host system
@@ -10,6 +11,10 @@ Ansible project to deploy my basic workstation configuration.
 - choose the desired roles in site.yml
 - ansible-playbook -i hosts site.yml
 - wait for deployment to finish and grab a coffee
+
+## Design decisions
+- Debian: It has reproducible builds. What's the use of open source software when I can't reproduce the binary and compare the hash? Without reproducability that binary could be anythin.
+- dns-over-tls vs dnscrypt: https://www.reddit.com/r/privacy/comments/89pr15/dnsoverhttps_vs_dns_overtls_vs_dnscrypt/
 
 ## Workstation configuration
 - i3 desktop + configs
@@ -24,6 +29,6 @@ Ansible project to deploy my basic workstation configuration.
   - apparmor (+ profiles)
   - firejail (+ putting apps by default into the sandbox)
   - usbguard (+ deny unknown usb devices by default)
-  - dnscrypt
+  - ToDo: dns-over-tls
   - ToDo: iptables
   - ToDo: yubikey support for lightdm / su / ssh / gpg / ...
