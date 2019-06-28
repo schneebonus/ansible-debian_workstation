@@ -20,7 +20,9 @@ Ansible project to deploy my basic workstation configuration.
   - basic communication tools
   - nextcloud client
 - basic daily tools (git, zsh, ...)
-- security hardening:
+- security hardening / improvements:
   - apparmor (+ profiles)
   - firejail (+ putting apps by default into the sandbox)
   - usbguard (+ deny unknown usb devices by default)
+  - dnscrypt (random resolver)
+  - ToDo: iptables
