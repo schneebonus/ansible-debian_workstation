@@ -4,7 +4,7 @@ Got bored to repeat the same steps every time I have to set up a new workstation
 
 ## Install
 - install ansible, generate ssh keys, ... basics for host system
-- target system shloud be a minimal debian netinstall with just a ssh server running
+- target system shloud be a minimal debian 10 netinstall with just a ssh server running
 - put your target system into hosts
 - allow your ssh key on the target system as the user root
 - put your username into site.yml
@@ -17,21 +17,29 @@ Got bored to repeat the same steps every time I have to set up a new workstation
 - dns-over-tls vs dnscrypt: https://www.reddit.com/r/privacy/comments/89pr15/dnsoverhttps_vs_dns_overtls_vs_dnscrypt/
 
 ## Workstation configuration
-- i3 window manager + configs (py3status, i3lock, ...)
+- i3 window manager + configs (py3status, i3lock, dmenu for applications, ...)
 - lightdm
 - basic office setup:
   - pdf viewer
-  - browser setup (ToDo: addons missing)
-  - basic communication tools
+  - browser setup (currently only chromium)
+  - thunderbird
+  - rambox-os
   - nextcloud client
-- basic daily tools (git, zsh, ...)
-- security hardening and improvements:
-  - apparmor (+ profiles)
+- basic daily tools (git, zsh, z, ...)
+- security hardening and improvements (lynis hardening index is 85):
+  - apparmor (+ profiles + extra profiles from apparmor-gitlab)
   - firejail (+ putting apps by default into the sandbox)
   - usbguard (+ deny unknown usb devices by default)
   - random mac address after every reboot for pre defined interfaces
-  - ToDo: dns-over-tls
-  - ToDo: iptables
+  - mullvad preinstalled (waiting for an account)
+  - dns-over-tls
+  - iptables
+  - tons of sysctl changes
   - ToDo: yubikey support for lightdm / su / ssh / gpg / dmcrypt ...
 - development tools
   - ToDo: ...
+
+## ToDo:
+- seperate files
+- cleanup files
+- add more software
