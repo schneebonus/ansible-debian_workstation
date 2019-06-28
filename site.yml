@@ -15,6 +15,7 @@
 #    - torbrowser	# ToDo
     - qemu-guest-agent	# ToDo
     - dns-over-tls	# done
+    - mullvad
     - cleanup		# done
   vars:
     username: "null"

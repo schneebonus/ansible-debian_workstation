@@ -27,3 +27,9 @@
     owner: "{{ username }}"
     group: "{{ username }}"
     state: link
+
+- name: Provide desktop file for launcher
+  template: 
+    src={{ role_path }}/templates/Nextcloud.desktop.j2 
+    dest=/usr/share/applications/nextcloud.desktop
+

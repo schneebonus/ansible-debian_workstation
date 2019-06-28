@@ -23,6 +23,9 @@
     - chkrootkit
     - libpam-passwdqc
     - macchanger
+    - auditd
+    - audispd-plugins
+    - arpwatch
 
 - name: "Enable apparmor in grub configuration"
   lineinfile:
@@ -80,6 +83,13 @@
 
 - name: Complain profiles
   shell: aa-complain /etc/apparmor.d/*
+
+- name: UMASK 027 in /etc/login.defs
+  lineinfile:
+    path: /etc/login.defs
+    regexp: '^UMASK.*'
+    line: "UMASK 027"
+    state: present
 
 - name: Password Max Age 365 days
   lineinfile:
@@ -173,6 +183,22 @@
     group: root
     mode: '0755'
 
+- name: set /etc/issue
+  copy:
+    src: "{{ role_path }}/files/issue"
+    dest: /etc/issue
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: set /etc/issue.net                              
+  copy:
+    src: "{{ role_path }}/files/issue"
+    dest: /etc/issue.net                     
+    owner: root
+    group: root
+    mode: '0644'
+
 - name: enable macspoof service for pre defined interfaces
   systemd:
     name: "macspoof@{{ item }}"
@@ -225,6 +251,8 @@
     - { regexp: '^net.ipv6.conf.all.accept_source_route', line: 'net.ipv6.conf.all.accept_source_route=0' }
     - { regexp: '^net.ipv6.conf.default.accept_redirects', line: 'net.ipv6.conf.default.accept_redirects=0' }
     - { regexp: '^net.ipv4.conf.all.forwarding', line: 'net.ipv4.conf.all.forwarding=0' }
+    - { regexp: '^vm.panic_on_oom', line: 'vm.panic_on_oom=1' }
+    - { regexp: '^kernel.panic', line: 'kernel.panic=10' }
 
 - name: disable ipv6 on all predefined interfaces
   lineinfile:

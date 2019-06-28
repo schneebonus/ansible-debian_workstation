@@ -1,0 +1,2 @@
+mullvad_version: 2019.5
+mullvad_url: "https://mullvad.net/media/app/MullvadVPN-{{ mullvad_version }}_amd64.deb"
