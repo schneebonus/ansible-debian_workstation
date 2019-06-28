@@ -1,4 +1,4 @@
-- hosts: workstations
+- hosts: vms
   roles:
     - base-system	# work in progress
     - greeter		# done
@@ -10,14 +10,62 @@
     - rambox-os		# done
     - pdf		# done but could have security improvements / isolation
     - security		# done
-    - iptables
+    - iptables		# done
     - browsers		# chromium only and plugins missing
-#    - torbrowser	# ToDo
     - qemu-guest-agent	# ToDo
     - dns-over-tls	# done
-    - mullvad
+    - mullvad		# done
     - cleanup		# done
   vars:
     username: "null"
     interfaces:
       - enp1s0
+
+- hosts: desktops         
+  roles:
+    - base-system       # work in progress
+    - greeter           # done
+    - i3                # done
+    - i3status          # done
+    - nextcloud-client  # done
+    - zsh               # done
+    - communication     # done
+    - rambox-os         # done
+    - pdf               # done but could have security improvements / isolation
+    - security          # done
+    - iptables		# done
+    - browsers          # chromium only and plugins missing
+    - dns-over-tls      # done
+    - mullvad		# done
+    - cleanup           # done
+  vars:
+    username: "null"
+    interfaces:
+      - enp1s0
+      - wlp3s0
+
+- hosts: laptops
+  roles:
+    - base-system       # work in progress
+    - greeter           # done
+    - i3                # done
+    - i3status          # done
+    - nextcloud-client  # done
+    - zsh               # done
+    - communication     # done
+    - rambox-os         # done
+    - pdf               # done but could have security improvements / isolation
+    - security          # done
+    - iptables		# done
+    - browsers          # chromium only and plugins missing
+    - dns-over-tls      # done
+    - mullvad		# done
+    - tlp		# ToDo
+    - cleanup           # done
+  vars:
+    username: "null"
+    interfaces:
+      - enp1s0 
+      - wlp3s0
+
+

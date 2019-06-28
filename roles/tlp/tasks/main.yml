@@ -1,0 +1,48 @@
+- name: Install tlp packages
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - tlp
+    - tlp-rdw
+    - tp-smapi-dkms
+    - acpi-call-dkms
+
+- name: enable tlp service and ensure it is not masked
+  systemd:
+    name: tlp
+    enabled: yes
+    masked: no
+
+- name: enable tlp-sleep service and ensure it is not masked
+  systemd:
+    name: tlp-sleep
+    enabled: yes
+    masked: no
+
+- name: enable NetworkManager-dispatcher service and ensure it is not masked
+  systemd:
+    name: NetworkManager-dispatcher
+    enabled: yes
+    masked: no
+
+- name: mask systemd-rfkill service
+  systemd:
+    name: systemd-rfkill
+    state: stopped
+    masked: yes
+
+- name: Make sure tlp service is running
+  systemd:
+    state: started
+    name: tlp
+
+- name: Make sure tlp-sleep service is running
+  systemd:
+    state: started
+    name: tlp-sleep
+
+- name: Make sure NetworkManager-dispatcher service is running
+  systemd:
+    state: started
+    name: NetworkManager-dispatcher
