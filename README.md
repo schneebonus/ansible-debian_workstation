@@ -17,7 +17,7 @@ Got bored to repeat the same steps every time I have to set up a new workstation
 - dns-over-tls vs dnscrypt: https://www.reddit.com/r/privacy/comments/89pr15/dnsoverhttps_vs_dns_overtls_vs_dnscrypt/
 
 ## Workstation configuration
-- i3 desktop + configs
+- i3 window manager + configs (py3status, i3lock, ...)
 - lightdm
 - basic office setup:
   - pdf viewer
