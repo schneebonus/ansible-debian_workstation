@@ -24,6 +24,7 @@
     - python3-pip
     - python-setuptools
     - python-pip
+    - keepassxc
     - sudo
     - zenity
     - network-manager
