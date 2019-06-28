@@ -42,7 +42,6 @@
     username: "null"
     interfaces:
       - enp1s0
-      - wlp3s0
 
 - hosts: laptops
   roles:

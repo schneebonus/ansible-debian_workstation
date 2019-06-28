@@ -19,6 +19,7 @@ Got bored to repeat the same steps every time I have to set up a new workstation
 ## Workstation configuration
 - i3 window manager + configs (py3status, i3lock, dmenu for applications, ...)
 - lightdm
+- moved /tmp and caches to ramdisks
 - basic office setup:
   - pdf viewer
   - browser setup (currently only chromium)
