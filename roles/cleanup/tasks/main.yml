@@ -15,3 +15,10 @@
   apt:
     autoremove: yes
     purge: yes
+
+- name: disable sshd service and ensure it is not masked
+  systemd:
+    name: ssh
+    enabled: no
+    masked: no
+

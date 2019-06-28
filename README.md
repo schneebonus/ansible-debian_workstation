@@ -13,7 +13,7 @@ Got bored to repeat the same steps every time I have to set up a new workstation
 - wait for deployment to finish and grab a coffee
 
 ## Design decisions
-- Debian: It has reproducible builds. What's the use of open source software when I can't reproduce the binary and compare the hash? Without reproducability that binary could be anythin.
+- Debian: It has reproducible builds. What's the use of open source software when I can't reproduce the binary and compare the hash? Without reproducability that binary could be anythin... and nobody has the time to gentoo everything.
 - dns-over-tls vs dnscrypt: https://www.reddit.com/r/privacy/comments/89pr15/dnsoverhttps_vs_dns_overtls_vs_dnscrypt/
 
 ## Workstation configuration

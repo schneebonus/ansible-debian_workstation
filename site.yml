@@ -16,10 +16,6 @@
     - dns-over-tls	# done
     - mullvad		# done
     - cleanup		# done
-  vars:
-    username: "null"
-    interfaces:
-      - enp1s0
 
 - hosts: desktops         
   roles:
@@ -38,10 +34,6 @@
     - dns-over-tls      # done
     - mullvad		# done
     - cleanup           # done
-  vars:
-    username: "null"
-    interfaces:
-      - enp1s0
 
 - hosts: laptops
   roles:
@@ -61,10 +53,3 @@
     - mullvad		# done
     - tlp		# ToDo
     - cleanup           # done
-  vars:
-    username: "null"
-    interfaces:
-      - enp1s0 
-      - wlp3s0
-
-

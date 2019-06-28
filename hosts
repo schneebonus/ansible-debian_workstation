@@ -1,9 +1,17 @@
-[vms]
-192.168.122.242
+vms:
+# 192.168.122.242
 
-[desktops]
+desktops:
 
-[laptops]
+laptops:
+  hosts:
+    192.168.20.150
+  vars:
+    interfaces:
+      - enp1s0
+      - wlp2s0
 
-[all:vars]
-ansible_user=root
+all:
+  vars:
+    ansible_user: root
+    username: "null"
