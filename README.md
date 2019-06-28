@@ -26,3 +26,4 @@ Ansible project to deploy my basic workstation configuration.
   - usbguard (+ deny unknown usb devices by default)
   - dnscrypt (random resolver)
   - ToDo: iptables
+  - ToDo: yubikey support for lightdm / su / ssh / gpg / ...
