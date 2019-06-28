@@ -17,7 +17,7 @@
   lineinfile:
     path: /etc/dnscrypt-proxy/dnscrypt-proxy.conf
     regexp: 'ResolverName.*'
-    line: "ResolverName random"
+    line: "ResolverName ns0.dnscrypt.is"
     state: present
 
 - name: Replace nameserver in /etc/resolv.conf

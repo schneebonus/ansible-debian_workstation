@@ -109,11 +109,11 @@
     line: "Compression        no"
     state: present
 
-- name: SSH MaxAuthTries 1
+- name: SSH MaxAuthTries 5
   lineinfile:
     path: /etc/ssh/sshd_config
     regexp: '^MaxAuthTries.*'
-    line: "MaxAuthTries		1"
+    line: "MaxAuthTries		5"
     state: present
 
 - name: SSH MaxSessions 1

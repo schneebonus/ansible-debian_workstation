@@ -24,6 +24,6 @@ Ansible project to deploy my basic workstation configuration.
   - apparmor (+ profiles)
   - firejail (+ putting apps by default into the sandbox)
   - usbguard (+ deny unknown usb devices by default)
-  - dnscrypt (random resolver)
+  - dnscrypt
   - ToDo: iptables
   - ToDo: yubikey support for lightdm / su / ssh / gpg / ...
