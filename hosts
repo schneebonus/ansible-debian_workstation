@@ -1,5 +1,6 @@
 [workstations]
-192.168.122.21
+# 192.168.122.21
+192.168.122.242
 
 [all:vars]
 ansible_user=root

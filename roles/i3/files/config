@@ -279,7 +279,7 @@ exec "gnome-terminal -e 'tmux'"
 # exec firefox
 # exec tor
 # exec rambox
-exec nextcloud
+exec ~/.local/bin/nextcloud
 # exec thunderbird
 
 exec --no-startup-id usbguard-applet-qt

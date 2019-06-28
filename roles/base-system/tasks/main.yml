@@ -21,6 +21,8 @@
     - tmux
     - python3-setuptools
     - python3-pip
+    - python-setuptools
+    - python-pip
     - sudo
     - network-manager
     - network-manager-gnome
@@ -33,5 +35,16 @@
 - name: Allow user {{ username }} on host {{ hostname }} to shutdown and reboot the system
   lineinfile:
     path: /etc/sudoers
-    line: "{{ username }} {{ inventory_hostname }} =NOPASSWD: /usr/bin/systemctl poweroff,/usr/bin/systemctl halt,/usr/bin/systemctl reboot"
+    line: "{{ username }} {{ inventory_hostname }} =NOPASSWD: /usr/bin/systemctl shutdown,/usr/bin/systemctl hibernate,/usr/bin/systemctl reboot"
     create: yes
+
+- name: Create /opt/z
+  file:
+    path: /opt/z
+    state: directory
+    mode: '0755'
+
+- name: Install rupa/z
+  git:
+    repo: 'https://github.com/rupa/z.git'
+    dest: /opt/z/

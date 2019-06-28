@@ -1,0 +1,23 @@
+- name: Install stubby
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - stubby
+
+- name: enable stubby service and ensure it is not masked
+  systemd:
+    name: stubby
+    enabled: yes
+    masked: no
+
+- name: Make sure stubby service is running
+  systemd:
+    state: started
+    name: stubby
+
+- name: Switch nameserver to stubby
+  lineinfile:
+    path: /etc/resolv.conf
+    regexp: '^nameserver.*'
+    line: 'nameserver 127.0.0.1'

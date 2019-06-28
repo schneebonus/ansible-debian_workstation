@@ -29,6 +29,7 @@ Got bored to repeat the same steps every time I have to set up a new workstation
   - apparmor (+ profiles)
   - firejail (+ putting apps by default into the sandbox)
   - usbguard (+ deny unknown usb devices by default)
+  - random mac address after every reboot for pre defined interfaces
   - ToDo: dns-over-tls
   - ToDo: iptables
   - ToDo: yubikey support for lightdm / su / ssh / gpg / dmcrypt ...

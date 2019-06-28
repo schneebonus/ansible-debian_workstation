@@ -6,12 +6,17 @@
     - i3status		# done
     - nextcloud-client	# done
     - zsh		# done
-    - communication	# ToDo: franz
+    - communication	# done
+    - rambox-os		# done
     - pdf		# done but could have security improvements / isolation
     - security		# done
+    - iptables
     - browsers		# chromium only and plugins missing
 #    - torbrowser	# ToDo
     - qemu-guest-agent	# ToDo
-    - dnscrypt		# done
+    - dns-over-tls	# done
+    - cleanup		# done
   vars:
-    username: null
+    username: "null"
+    interfaces:
+      - enp1s0

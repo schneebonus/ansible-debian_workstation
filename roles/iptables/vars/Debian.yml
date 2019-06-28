@@ -1,0 +1,5 @@
+---
+
+iptables_package: netfilter-persistent
+iptables_service: netfilter-persistent
+iptables_path: /etc/iptables/rules.v4

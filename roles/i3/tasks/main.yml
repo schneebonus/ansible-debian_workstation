@@ -1,7 +1,6 @@
 - name: install i3 Desktop
   apt:
     name: "{{ packages }}"
-    state: latest
     update_cache: yes
   vars:
     packages:

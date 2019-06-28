@@ -4,10 +4,10 @@
     state: directory
     mode: '0755'
 
-- name: Download nextcloud appimage
+- name: Download rambox-os appimage
   get_url:
-    url: "{{ nextcloud_url }}"
-    dest: "/home/{{ username }}/Applications/Nextcloud.AppImage"
+    url: "{{ rambox_url }}"
+    dest: "/home/{{ username }}/Applications/Rambox-OS.AppImage"
     mode: '0755'
     owner: "{{ username }}"
     group: "{{ username }}"
@@ -20,10 +20,10 @@
     owner: "{{ username }}"
     group: "{{ username }}"
 
-- name: Link nextcloud to ~/.local/bin/nextcloud
+- name: Link rambox-os to ~/.local/bin/rambox-os
   file:
-    src: "/home/{{ username }}/Applications/Nextcloud.AppImage"
-    dest: "/home/{{ username }}/.local/bin/nextcloud"
+    src: "/home/{{ username }}/Applications/Rambox-OS.AppImage"
+    dest: "/home/{{ username }}/.local/bin/rambox-os"
     owner: "{{ username }}"
     group: "{{ username }}"
     state: link

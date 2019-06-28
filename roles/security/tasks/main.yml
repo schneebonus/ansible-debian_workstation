@@ -1,13 +1,3 @@
-- name: Add lynis apt key
-  apt_key:
-    keyserver: keyserver.ubuntu.com
-    id: C80E383C3DE9F082E01391A0366C67DE91CA5D5F
-
-- name: Add lynis repository
-  apt_repository:
-    repo: deb https://packages.cisofy.com/community/lynis/deb/ stable main
-    state: present
-
 - name: Install security tools
   apt:
     name: "{{ packages }}"
@@ -15,13 +5,14 @@
   vars:
     packages:
     - firejail
+    - iptables
+    - iptables-persistent
     - usbguard
     - usbguard-applet-qt
     - auditd
     - apparmor
     - apparmor-utils
     - apparmor-profiles-extra
-    - lynis
     - fail2ban
     - apt-listbugs
     - debian-goodies
@@ -31,6 +22,7 @@
     - rkhunter
     - chkrootkit
     - libpam-passwdqc
+    - macchanger
 
 - name: "Enable apparmor in grub configuration"
   lineinfile:
@@ -44,8 +36,14 @@
   shell: update-grub
   when: grub_cmdline.changed
 
-- name: enable firejail for all default profiles
-  shell: firecfg
+- name: Enforce firejail profiles
+  file:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    state: link
+  with_items:
+    - { src: /usr/bin/firejail, dest: /usr/local/bin/evince }
+    - { src: /usr/bin/firejail, dest: /usr/local/bin/whois }
 
 - name: allow user null to add usb devices
   lineinfile:
@@ -57,8 +55,31 @@
     group: root
     mode: '0644'
 
-- name: copy aa extra profiles
-  shell: 'cp -f /usr/share/doc/apparmor-profiles/extras/*.* /etc/apparmor.d/'
+- name: Download extra AppArmor profiles
+  get_url:
+    url: 'https://gitlab.com/apparmor/apparmor/-/archive/master/apparmor-master.zip?path=profiles%2Fapparmor%2Fprofiles%2Fextras'
+    dest: /tmp/apparmor-extra-profiles.zip
+
+- name: Extract extra AppArmor profiles
+  unarchive:
+    src: /tmp/apparmor-extra-profiles.zip
+    dest: /tmp
+    remote_src: yes
+
+- name: Get AppArmor files (needed to copy them)
+  find:
+    paths: /tmp/apparmor-master-profiles-apparmor-profiles-extras/profiles/apparmor/profiles/extras
+  register: apparmor_profiles
+
+- name: Copy extra profiles to apparmor.d
+  copy:
+      src: "{{ item.path }}"
+      dest: /etc/apparmor.d/
+      remote_src: yes
+  with_items: "{{ apparmor_profiles.files }}"
+
+- name: Complain profiles
+  shell: aa-complain /etc/apparmor.d/*
 
 - name: Password Max Age 365 days
   lineinfile:
@@ -109,24 +130,108 @@
     line: "Compression        no"
     state: present
 
-- name: SSH MaxAuthTries 5
+- name: SSH AllowAgentForwarding no
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^AllowAgentForwarding.*'
+    line: "AllowAgentForwarding		no"
+    state: present
+
+- name: SSH TCPKeepAlive no
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^TCPKeepAlive.*'
+    line: "TCPKeepAlive		no"
+    state: present
+
+- name: SSH MaxAuthTries 3
   lineinfile:
     path: /etc/ssh/sshd_config
     regexp: '^MaxAuthTries.*'
-    line: "MaxAuthTries		5"
+    line: "MaxAuthTries		3"
     state: present
 
-- name: SSH MaxSessions 1
+- name: SSH MaxSessions 2
   lineinfile:
     path: /etc/ssh/sshd_config
     regexp: '^MaxSessions.*'
-    line: "MaxSessions		1"
+    line: "MaxSessions		2"
     state: present
 
-- name: SSH ClientAliveCountMax 1
+- name: SSH ClientAliveCountMax 2
   lineinfile:
     path: /etc/ssh/sshd_config
     regexp: '^ClientAliveCountMax.*'
-    line: "ClientAliveCountMax	1"
+    line: "ClientAliveCountMax	2"
     state: present
 
+- name: Create systemd service to change mac address
+  copy:
+    src: "{{ role_path }}/files/macspoof@.service"
+    dest: /etc/systemd/system/macspoof@.service
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: enable macspoof service for pre defined interfaces
+  systemd:
+    name: "macspoof@{{ item }}"
+    enabled: yes
+    masked: no
+  loop: "{{ interfaces }}"
+
+- name: Create /opt/lynis
+  file:
+    path: /opt/lynis
+    state: directory
+    mode: '0755'
+
+- name: Clone lynis
+  git:
+    repo: 'https://github.com/CISOfy/lynis.git'
+    dest: /opt/lynis/
+
+- name: Change /root/.ssh to 0700
+  file:
+    path: /root/.ssh
+    owner: root
+    group: root
+    mode: '0700'
+
+- name: Harden sysctl.conf
+  lineinfile:
+    dest: /etc/sysctl.conf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - { regexp: '^net.ipv4.icmp_echo_ignore_all', line: 'net.ipv4.icmp_echo_ignore_all=1' }
+    - { regexp: '^net.ipv4.icmp_echo_ignore_broadcasts', line: 'net.ipv4.icmp_echo_ignore_broadcasts=1' }
+    - { regexp: '^net.ipv6.conf.all.disable_ipv6', line: 'net.ipv6.conf.all.disable_ipv6=1' }
+    - { regexp: '^net.ipv6.conf.default.disable_ipv6', line: 'net.ipv6.conf.default.disable_ipv6=1' }
+    - { regexp: '^net.ipv6.conf.lo.disable_ipv6', line: 'net.ipv6.conf.lo.disable_ipv6=1' }
+    - { regexp: '^kernel.core_uses_pid', line: 'kernel.core_uses_pid=1' }
+    - { regexp: '^kernel.ctrl-alt-del', line: 'kernel.ctrl-alt-del=0' }
+    - { regexp: '^kernel.kptr_restrict', line: 'kernel.kptr_restrict=2' }
+    - { regexp: '^kernel.sysrq', line: 'kernel.sysrq=0' }
+    - { regexp: '^net.ipv4.conf.all.accept_redirects', line: 'net.ipv4.conf.all.accept_redirects=0' }
+    - { regexp: '^net.ipv4.conf.all.log_martians', line: 'net.ipv4.conf.all.log_martians=1' }
+    - { regexp: '^net.ipv4.conf.all.rp_filter', line: 'net.ipv4.conf.all.rp_filter=1' }
+    - { regexp: '^net.ipv4.conf.all.send_redirects', line: 'net.ipv4.conf.all.send_redirects=0' }
+    - { regexp: '^net.ipv4.conf.default.accept_redirects', line: 'net.ipv4.conf.default.accept_redirects=0' }
+    - { regexp: '^net.ipv4.conf.default.accept_source_route', line: 'net.ipv4.conf.default.accept_source_route=0' }
+    - { regexp: '^net.ipv4.conf.default.log_martians', line: 'net.ipv4.conf.default.log_martians=1' }
+    - { regexp: '^net.ipv4.tcp_timestamps', line: 'net.ipv4.tcp_timestamps=0' }
+    - { regexp: '^net.ipv6.conf.all.accept_redirects', line: 'net.ipv6.conf.all.accept_redirects=0' }
+    - { regexp: '^net.ipv6.conf.all.accept_source_route', line: 'net.ipv6.conf.all.accept_source_route=0' }
+    - { regexp: '^net.ipv6.conf.default.accept_redirects', line: 'net.ipv6.conf.default.accept_redirects=0' }
+    - { regexp: '^net.ipv4.conf.all.forwarding', line: 'net.ipv4.conf.all.forwarding=0' }
+
+- name: disable ipv6 on all predefined interfaces
+  lineinfile:
+    dest: /etc/sysctl.conf
+    regexp: "net.ipv6.conf.{{ item }}.disable_ipv6"
+    line: "net.ipv6.conf.{{ item }}.disable_ipv6=1"
+  loop: "{{ interfaces }}"
+
+- name: Activate sysctl changes
+  shell: "sysctl -p"
