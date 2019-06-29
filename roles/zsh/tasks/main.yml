@@ -65,3 +65,5 @@
     regexp: '^PATH='
     line: PATH=$PATH:/sbin:/usr/sbin:/usr/local/sbin
 
+- name: Switch to zsh
+  shell: systemctl restart ssh

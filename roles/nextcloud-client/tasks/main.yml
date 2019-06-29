@@ -31,5 +31,4 @@
 - name: Provide desktop file for launcher
   template: 
     src={{ role_path }}/templates/Nextcloud.desktop.j2 
-    dest=/usr/share/applications/nextcloud.desktop
-
+    dest="/home/{{ username }}/Applications/dmenu/nextcloud.desktop"

@@ -1,15 +1,29 @@
 vms:
-# 192.168.122.242
-
-desktops:
-
-laptops:
+  # Config for qemu/kvm workstations.
+  # Test new configurations here.
   hosts:
-    192.168.20.150
+#      debian_10_test_vm:
+#        ansible_host: 192.168.122.242
+#        ansible_port: 23456
   vars:
     interfaces:
       - enp1s0
-      - wlp2s0
+
+usb_ssd:
+  # Config for a portable workstation.
+  # More flexible but does not include all driver
+  # or interface specific changes.
+  hosts:
+      usb_ssd_workstation:
+        ansible_host: 192.168.20.124
+        ansible_port: 34567
+  vars:
+    interfaces: [] # no interfaces. workstation is portable.
+
+lenovo_x240:
+  hosts:
+  vars:
+    interfaces: []
 
 all:
   vars:

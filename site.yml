@@ -1,5 +1,7 @@
 - hosts: vms
+  gather_facts: no
   roles:
+    - ssh
     - base-system	# work in progress
     - greeter		# done
     - i3		# done
@@ -7,7 +9,7 @@
     - nextcloud-client	# done
     - zsh		# done
     - communication	# done
-    - rambox-os		# done
+    - rambox		# done
     - pdf		# done but could have security improvements / isolation
     - security		# done
     - iptables		# done
@@ -17,8 +19,10 @@
     - mullvad		# done
     - cleanup		# done
 
-- hosts: desktops         
+- hosts: lenovo_x240
+  gather_facts: no
   roles:
+    - ssh
     - base-system       # work in progress
     - greeter           # done
     - i3                # done
@@ -26,25 +30,7 @@
     - nextcloud-client  # done
     - zsh               # done
     - communication     # done
-    - rambox-os         # done
-    - pdf               # done but could have security improvements / isolation
-    - security          # done
-    - iptables		# done
-    - browsers          # chromium only and plugins missing
-    - dns-over-tls      # done
-    - mullvad		# done
-    - cleanup           # done
-
-- hosts: laptops
-  roles:
-    - base-system       # work in progress
-    - greeter           # done
-    - i3                # done
-    - i3status          # done
-    - nextcloud-client  # done
-    - zsh               # done
-    - communication     # done
-    - rambox-os         # done
+    - rambox            # done
     - pdf               # done but could have security improvements / isolation
     - security          # done
     - iptables		# done
@@ -53,3 +39,25 @@
     - mullvad		# done
     - tlp		# ToDo
     - cleanup           # done
+
+- hosts: usb_ssd
+  gather_facts: no
+  roles:
+    - ssh
+    - base-system       # work in progress
+    - greeter           # done
+    - i3                # done
+    - i3status          # done
+    - nextcloud-client  # done
+    - zsh               # done
+    - communication     # done
+    - rambox            # done
+    - pdf               # done but could have security improvements / isolation
+    - security          # done
+    - iptables          # done
+    - browsers          # chromium only and plugins missing
+    - dns-over-tls      # done
+    - mullvad           # done
+    - tlp               # ToDo
+    - cleanup           # done
+

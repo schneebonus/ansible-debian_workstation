@@ -1,7 +1,11 @@
+- name: Install Thunderbird with option --channel=latest/edge
+  snap:
+    name: thunderbird
+    channel: latest/edge
 
-- name: Install communication packages
-  apt:
-    name: "{{ packages }}"
-  vars:
-    packages:
-    - thunderbird
+- name: Copy Thunderbird desktop file
+  copy:
+    src: /var/lib/snapd/desktop/applications/thunderbird_thunderbird.desktop
+    dest: "/home/{{ username }}/Applications/dmenu/thunderbird.desktop"
+    remote_src: yes
+

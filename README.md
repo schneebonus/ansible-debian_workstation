@@ -4,7 +4,7 @@ Got bored to repeat the same steps every time I have to set up a new workstation
 
 ## Install
 - install ansible, generate ssh keys, ... basics for host system
-- target system shloud be a minimal debian 10 netinstall with just a ssh server running
+- target system shloud be a minimal debian 10 netinstall with just a ssh server running and python3
 - put your target system into hosts
 - allow your ssh key on the target system as the user root
 - put your username into site.yml

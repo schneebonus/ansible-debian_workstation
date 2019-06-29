@@ -1,0 +1,10 @@
+- name: Install Rambox
+  snap:
+    name:
+      - rambox
+
+- name: Copy Rambox desktop file
+  copy:
+    src: /var/lib/snapd/desktop/applications/rambox_rambox.desktop
+    dest: "/home/{{username}}/Applications/dmenu/rambox.desktop"
+    remote_src: yes

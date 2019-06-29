@@ -3,13 +3,13 @@
     state: absent
     path: "rm /home/{{ username }}/.cache/dmenu_run"
 
-- name: Change owner of users home directory to user
-  file:
-    path: "/home/{{ username }}"
-    state: directory
-    recurse: yes
-    owner: "{{ username }}"
-    group: "{{ username }}"
+#- name: Change owner of users home directory to user
+#  file:
+#    path: "/home/{{ username }}"
+#    state: directory
+#    recurse: yes
+#    owner: "{{ username }}"
+#    group: "{{ username }}"
 
 - name: Clean unwanted olderstuff
   apt:

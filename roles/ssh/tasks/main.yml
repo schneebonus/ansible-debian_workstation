@@ -1,0 +1,36 @@
+- name: Set configured port fact
+  set_fact:
+    configured_port: "{{ ansible_port }}"
+
+- name: "Check port {{ ansible_port }}"
+  wait_for:
+    port: "{{ ansible_port }}"
+    state: "started"
+    host: "{{ ansible_host }}"
+    connect_timeout: "5"
+    timeout: "5"
+  delegate_to: "localhost"
+  ignore_errors: "yes"
+  register: ssh_port
+
+- debug:
+    msg: "{{ ansible_port }} : {{ not ssh_port }}"
+
+- name: Set SSH port to 22
+  set_fact:
+    ansible_port: "22"
+  when:
+    - ssh_port.failed
+
+- name: Setup alternate SSH port
+  lineinfile:
+    dest: "/etc/ssh/sshd_config"
+    regexp: "^Port"
+    line: "Port {{ configured_port }}"
+  notify: "Restart ssh"
+
+- name: Ensure SSH is reloaded if need be
+  meta: flush_handlers
+
+- name: Run deferred setup to gather facts
+  setup:

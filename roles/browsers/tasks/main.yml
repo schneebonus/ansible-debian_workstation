@@ -1,9 +1,24 @@
-- name: Install basic browsers
-  apt:
-    name: "{{ packages }}"
-    state: latest
-    update_cache: yes
-  vars:
-    packages:
-    - chromium
-    - chromium-l10n
+- name: refresh all snaps
+  shell: snap refresh
+
+- name: Install chromium
+  snap:
+    name:
+      - chromium
+
+- name: Copy Chromium desktop file
+  copy:
+    src: /var/lib/snapd/desktop/applications/chromium_chromium.desktop
+    dest: "/home/{{username}}/Applications/dmenu/chromium.desktop"
+    remote_src: yes
+
+- name: Install firefox
+  snap:
+    name:
+      - firefox
+
+- name: Copy Firefox desktop file                                  
+  copy:
+    src: /var/lib/snapd/desktop/applications/firefox_firefox.desktop
+    dest: "/home/{{username}}/Applications/dmenu/firefox.desktop"
+    remote_src: yes
