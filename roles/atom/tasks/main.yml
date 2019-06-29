@@ -1,0 +1,10 @@
+- name: Install atom
+  snap:
+    name:
+      - atom
+
+- name: Copy Spotify desktop file
+  copy:
+    src: /var/lib/snapd/desktop/applications/atom_atom.desktop
+    dest: "/home/{{username}}/Applications/dmenu/atom.desktop"
+    remote_src: yes

@@ -20,6 +20,9 @@ Got bored to repeat the same steps every time I have to set up a new workstation
 - i3 window manager + configs (py3status, i3lock, dmenu for applications, ...)
 - lightdm
 - moved /tmp and caches to ramdisks
+- multimedia
+  - spotify
+  - firefox can play netflix (once you enable drm)
 - basic office setup:
   - pdf viewer
   - browser setup (currently only chromium)
@@ -39,6 +42,9 @@ Got bored to repeat the same steps every time I have to set up a new workstation
   - tons of sysctl changes
   - ToDo: yubikey support for lightdm / su / ssh / gpg / dmcrypt ...
 - development tools
+  - atom
+  - ToDo: ...
+- pentesting
   - ToDo: ...
 
 ## ToDo:

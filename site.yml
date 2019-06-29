@@ -1,46 +1,4 @@
-- hosts: vms
-  gather_facts: no
-  roles:
-    - ssh
-    - base-system	# work in progress
-    - greeter		# done
-    - i3		# done
-    - i3status		# done
-    - nextcloud-client	# done
-    - zsh		# done
-    - communication	# done
-    - rambox		# done
-    - pdf		# done but could have security improvements / isolation
-    - security		# done
-    - iptables		# done
-    - browsers		# chromium only and plugins missing
-    - qemu-guest-agent	# ToDo
-    - dns-over-tls	# done
-    - mullvad		# done
-    - cleanup		# done
-
-- hosts: lenovo_x240
-  gather_facts: no
-  roles:
-    - ssh
-    - base-system       # work in progress
-    - greeter           # done
-    - i3                # done
-    - i3status          # done
-    - nextcloud-client  # done
-    - zsh               # done
-    - communication     # done
-    - rambox            # done
-    - pdf               # done but could have security improvements / isolation
-    - security          # done
-    - iptables		# done
-    - browsers          # chromium only and plugins missing
-    - dns-over-tls      # done
-    - mullvad		# done
-    - tlp		# ToDo
-    - cleanup           # done
-
-- hosts: usb_ssd
+- hosts: all
   gather_facts: no
   roles:
     - ssh
@@ -61,3 +19,14 @@
     - tlp               # ToDo
     - cleanup           # done
 
+- hosts: vms
+  roles:
+    - qemu-guest-agent
+
+- hosts: lenovo_x240
+  roles:
+    - tlp
+
+- hosts: usb_ssd
+  roles:
+    - tlp

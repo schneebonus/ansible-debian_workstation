@@ -1,0 +1,10 @@
+- name: Install Rambox
+  snap:
+    name:
+      - sporify
+
+- name: Copy Spotify desktop file
+  copy:
+    src: /var/lib/snapd/desktop/applications/spotify_spotify.desktop
+    dest: "/home/{{username}}/Applications/dmenu/spotify.desktop"
+    remote_src: yes
