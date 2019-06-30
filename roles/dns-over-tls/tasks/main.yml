@@ -4,6 +4,14 @@
   vars:
     packages:
     - stubby
+    - dnsmasq
+    - getdns-utils
+
+- name: Configure stubby
+  copy:
+    src: "{{ role_path}}/files/stubby.yml"
+    dest: /etc/stubby/stubby.yml
+    mode: '0644'
 
 - name: enable stubby service and ensure it is not masked
   systemd:
@@ -16,8 +24,50 @@
     state: started
     name: stubby
 
-- name: Switch nameserver to stubby
+- name: Configure dnsmasq
   lineinfile:
-    path: /etc/resolv.conf
-    regexp: '^nameserver.*'
-    line: 'nameserver 127.0.0.1'
+    dest: /etc/dnsmasq.conf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - { regexp: '^server=', line: 'server=127.0.0.1#53000' }
+    - { regexp: '^listen-address=', line: 'listen-address=127.0.0.1' }
+    - { regexp: '^interface=', line: 'interface=lo' }
+    - { regexp: '^bind-interfaces', line: 'bind-interfaces' }
+
+- name: Prevent NetworkManager from overwriting dns settings
+  copy:
+    src: "{{ role_path}}/files/NetworkManager.conf"
+    dest: /etc/NetworkManager/NetworkManager.conf 
+    mode: '0644'
+
+- name: Switch nameserver to stubby with ccc fallback
+  copy:
+    src: "{{ role_path}}/files/resolv.conf"
+    dest: /etc/resolv.conf
+    mode: '0644'
+
+- name: enable dnsmasq service and ensure it is not masked
+  systemd:
+    name: dnsmasq
+    enabled: yes
+    masked: no
+
+- name: Make sure dnsmasq service is running
+  systemd:
+    state: started
+    name: dnsmasq
+
+- name: Restart NetworkManager
+  systemd:
+    state: restarted
+    name: NetworkManager
+
+- name: Prevent dhcp client from overwriting dns servers
+  lineinfile:
+    dest: /etc/dhcp/dhclient.conf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - { regexp: '^supersede.*domain-name-servers', line: 'supersede	domain-name-servers	127.0.0.1,127.0.0.1;' }
+

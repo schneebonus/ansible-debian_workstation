@@ -26,6 +26,14 @@
     - auditd
     - audispd-plugins
     - arpwatch
+    - acct
+
+- name: Fix permissions of /etc/sudoers.d
+  file:
+    path: "/etc/sudoers.d"
+    state: directory
+    recurse: yes
+    mode: 0440
 
 - name: "Enable apparmor in grub configuration"
   lineinfile:
@@ -98,6 +106,14 @@
     line: "PASS_MAX_DAYS	365"
     state: present
 
+- name: PermitRootLogin without-password
+  lineinfile:
+    path: /etc/login.defs
+    regexp: '^PermitRootLogin.*'
+    line: "PermitRootLogin	without-password"
+    state: present
+
+
 - name: Password Min Age one day
   lineinfile:
     path: /etc/login.defs
@@ -145,6 +161,20 @@
     path: /etc/ssh/sshd_config
     regexp: '^AllowAgentForwarding.*'
     line: "AllowAgentForwarding		no"
+    state: present
+
+- name: SSH UseDNS no
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^UseDNS.*'
+    line: "UseDNS         no"
+    state: present
+
+- name: SSH Banner /etc/issue            
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^Banner.*'
+    line: "Banner /etc/issue"
     state: present
 
 - name: SSH TCPKeepAlive no
@@ -253,6 +283,7 @@
     - { regexp: '^net.ipv4.conf.all.forwarding', line: 'net.ipv4.conf.all.forwarding=0' }
     - { regexp: '^vm.panic_on_oom', line: 'vm.panic_on_oom=1' }
     - { regexp: '^kernel.panic', line: 'kernel.panic=10' }
+    - { regexp: '^kernel.yama.ptrace_scope', line: 'kernel.yama.ptrace_scope = 1' }
 
 - name: disable ipv6 on all predefined interfaces
   lineinfile:
@@ -263,3 +294,25 @@
 
 - name: Activate sysctl changes
   shell: "sysctl -p"
+
+- name: Touch /etc/modprobe.d/blacklist-firewire.conf
+  file:
+    path: /etc/modprobe.d/blacklist-firewire.conf
+    state: touch
+    mode: u=rw,g=r,o=r
+
+- name: Blacklist firewire.core
+  lineinfile:
+    path: /etc/modprobe.d/blacklist-firewire.conf
+    regexp: '^blacklist.*firewire-core'
+    line: "blacklist	firewire-core"
+
+- name: Restrict access to gcc
+  file:
+    path: /usr/bin/gcc
+    mode: '0500'
+
+- name: Restrict access to as
+  file:
+    path: /usr/bin/as
+    mode: '0500'

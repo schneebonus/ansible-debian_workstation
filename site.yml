@@ -2,22 +2,20 @@
   gather_facts: no
   roles:
     - ssh
-    - base-system       # work in progress
-    - greeter           # done
-    - i3                # done
-    - i3status          # done
-    - nextcloud-client  # done
-    - zsh               # done
-    - communication     # done
-    - rambox            # done
-    - pdf               # done but could have security improvements / isolation
-    - security          # done
-    - iptables          # done
-    - browsers          # chromium only and plugins missing
-    - dns-over-tls      # done
-    - mullvad           # done
-    - tlp               # ToDo
-    - cleanup           # done
+    - base-system
+    - greeter
+    - i3
+    - i3status
+    - nextcloud-client
+    - zsh
+    - communication
+    - rambox
+    - pdf
+    - security
+    - iptables
+    - browsers
+    - dns-over-tls
+    - mullvad
 
 - hosts: vms
   roles:
@@ -30,3 +28,7 @@
 - hosts: usb_ssd
   roles:
     - tlp
+
+- hosts: all
+  roles:
+    - cleanup
