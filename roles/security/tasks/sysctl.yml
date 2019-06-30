@@ -1,0 +1,40 @@
+- name: Harden sysctl.conf
+  lineinfile:
+    dest: /etc/sysctl.conf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - { regexp: '^net.ipv4.icmp_echo_ignore_all', line: 'net.ipv4.icmp_echo_ignore_all=1' }
+    - { regexp: '^net.ipv4.icmp_echo_ignore_broadcasts', line: 'net.ipv4.icmp_echo_ignore_broadcasts=1' }
+    - { regexp: '^net.ipv6.conf.all.disable_ipv6', line: 'net.ipv6.conf.all.disable_ipv6=1' }
+    - { regexp: '^net.ipv6.conf.default.disable_ipv6', line: 'net.ipv6.conf.default.disable_ipv6=1' }
+    - { regexp: '^net.ipv6.conf.lo.disable_ipv6', line: 'net.ipv6.conf.lo.disable_ipv6=1' }
+    - { regexp: '^kernel.core_uses_pid', line: 'kernel.core_uses_pid=1' }
+    - { regexp: '^kernel.ctrl-alt-del', line: 'kernel.ctrl-alt-del=0' }
+    - { regexp: '^kernel.kptr_restrict', line: 'kernel.kptr_restrict=2' }
+    - { regexp: '^kernel.sysrq', line: 'kernel.sysrq=0' }
+    - { regexp: '^net.ipv4.conf.all.accept_redirects', line: 'net.ipv4.conf.all.accept_redirects=0' }
+    - { regexp: '^net.ipv4.conf.all.log_martians', line: 'net.ipv4.conf.all.log_martians=1' }
+    - { regexp: '^net.ipv4.conf.all.rp_filter', line: 'net.ipv4.conf.all.rp_filter=1' }
+    - { regexp: '^net.ipv4.conf.all.send_redirects', line: 'net.ipv4.conf.all.send_redirects=0' }
+    - { regexp: '^net.ipv4.conf.default.accept_redirects', line: 'net.ipv4.conf.default.accept_redirects=0' }
+    - { regexp: '^net.ipv4.conf.default.accept_source_route', line: 'net.ipv4.conf.default.accept_source_route=0' }
+    - { regexp: '^net.ipv4.conf.default.log_martians', line: 'net.ipv4.conf.default.log_martians=1' }
+    - { regexp: '^net.ipv4.tcp_timestamps', line: 'net.ipv4.tcp_timestamps=0' }
+    - { regexp: '^net.ipv6.conf.all.accept_redirects', line: 'net.ipv6.conf.all.accept_redirects=0' }
+    - { regexp: '^net.ipv6.conf.all.accept_source_route', line: 'net.ipv6.conf.all.accept_source_route=0' }
+    - { regexp: '^net.ipv6.conf.default.accept_redirects', line: 'net.ipv6.conf.default.accept_redirects=0' }
+    - { regexp: '^net.ipv4.conf.all.forwarding', line: 'net.ipv4.conf.all.forwarding=0' }
+    - { regexp: '^vm.panic_on_oom', line: 'vm.panic_on_oom=1' }
+    - { regexp: '^kernel.panic', line: 'kernel.panic=10' }
+    - { regexp: '^kernel.yama.ptrace_scope', line: 'kernel.yama.ptrace_scope = 1' }
+
+- name: disable ipv6 on all predefined interfaces
+  lineinfile:
+    dest: /etc/sysctl.conf
+    regexp: "net.ipv6.conf.{{ item }}.disable_ipv6"
+    line: "net.ipv6.conf.{{ item }}.disable_ipv6=1"
+  loop: "{{ interfaces }}"
+
+- name: Activate sysctl changes
+  shell: "sysctl -p"

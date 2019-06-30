@@ -1,0 +1,13 @@
+- name: refresh all snaps
+  shell: snap refresh
+
+- name: Install chromium
+  snap:
+    name:
+      - chromium
+
+- name: Copy Chromium desktop file
+  copy:
+    src: /var/lib/snapd/desktop/applications/chromium_chromium.desktop
+    dest: "/home/{{username}}/Applications/dmenu/chromium.desktop"
+    remote_src: yes

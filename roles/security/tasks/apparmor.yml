@@ -1,0 +1,47 @@
+- name: Install security tools
+  apt:
+    name: "{{ packages }}"
+    update_cache: yes
+  vars:
+    packages:
+    - apparmor
+    - apparmor-utils
+    - apparmor-profiles-extra
+
+- name: "Enable apparmor in grub configuration"
+  lineinfile:
+    line: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet apparmor=1 security=apparmor"'
+    regexp: "^GRUB_CMDLINE_LINUX_DEFAULT=.*"
+    state: present
+    path: /etc/default/grub
+  register: grub_cmdline
+
+- name: "Re-generate grub configuration"
+  shell: update-grub
+  when: grub_cmdline.changed
+
+- name: Download extra AppArmor profiles
+  get_url:
+    url: 'https://gitlab.com/apparmor/apparmor/-/archive/master/apparmor-master.zip?path=profiles%2Fapparmor%2Fprofiles%2Fextras'
+    dest: /tmp/apparmor-extra-profiles.zip
+
+- name: Extract extra AppArmor profiles
+  unarchive:
+    src: /tmp/apparmor-extra-profiles.zip
+    dest: /tmp
+    remote_src: yes
+
+- name: Get AppArmor files (needed to copy them)
+  find:
+    paths: /tmp/apparmor-master-profiles-apparmor-profiles-extras/profiles/apparmor/profiles/extras
+  register: apparmor_profiles
+
+- name: Copy extra profiles to apparmor.d
+  copy:
+    src: "{{ item.path }}"
+    dest: /etc/apparmor.d/
+    remote_src: yes
+  with_items: "{{ apparmor_profiles.files }}"
+
+- name: Enforce profiles
+  shell: aa-enforce /etc/apparmor.d/*

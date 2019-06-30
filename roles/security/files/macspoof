@@ -1,0 +1,17 @@
+#!/bin/bash
+
+array_interfaces=()
+for iface in $(ifconfig | cut -d ' ' -f1| tr ':' '\n' | awk NF)
+do
+        if [[ $iface == enp* ]] || [[ $iface == wlp* ]]
+	then
+    		array_interfaces+=("$iface")
+	fi
+done
+
+for i in "${array_interfaces[@]}"
+do
+	ifconfig $i down
+	/usr/bin/macchanger -r $i
+	ifconfig $i up
+done

@@ -1,0 +1,28 @@
+- name: Install dnsmasq
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - dnsmasq
+
+- name: Configure dnsmasq
+  lineinfile:
+    dest: /etc/dnsmasq.conf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - { regexp: '^server=', line: 'server=127.0.0.1#53000' }
+    - { regexp: '^listen-address=', line: 'listen-address=127.0.0.1' }
+    - { regexp: '^interface=', line: 'interface=lo' }
+    - { regexp: '^bind-interfaces', line: 'bind-interfaces' }
+
+- name: enable dnsmasq service and ensure it is not masked
+  systemd:
+    name: dnsmasq
+    enabled: yes
+    masked: no
+
+- name: Make sure dnsmasq service is running
+  systemd:
+    state: started
+    name: dnsmasq

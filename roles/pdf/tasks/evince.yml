@@ -1,0 +1,10 @@
+- name: Install evince
+  snap:
+    name:
+      - evince
+
+- name: Copy Evince desktop file
+  copy:
+    src: /var/lib/snapd/desktop/applications/evince_evince.desktop
+    dest: "/home/{{username}}/Applications/dmenu/evince.desktop"
+    remote_src: yes

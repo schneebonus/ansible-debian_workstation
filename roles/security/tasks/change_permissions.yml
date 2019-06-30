@@ -1,0 +1,13 @@
+- name: Fix permissions of /etc/sudoers.d
+  file:
+    path: "/etc/sudoers.d"
+    state: directory
+    recurse: yes
+    mode: 0440
+
+- name: Change /root/.ssh to 0700
+  file:
+    path: /root/.ssh
+    owner: root
+    group: root
+    mode: '0700'

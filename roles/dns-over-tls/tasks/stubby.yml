@@ -1,0 +1,24 @@
+- name: Install stubby
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - stubby
+    - getdns-utils
+
+- name: Configure stubby
+  copy:
+    src: "{{ role_path}}/files/stubby.yml"
+    dest: /etc/stubby/stubby.yml
+    mode: '0644'
+
+- name: enable stubby service and ensure it is not masked
+  systemd:
+    name: stubby
+    enabled: yes
+    masked: no
+
+- name: Make sure stubby service is running
+  systemd:
+    state: started
+    name: stubby

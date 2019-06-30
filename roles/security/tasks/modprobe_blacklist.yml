@@ -1,0 +1,19 @@
+- name: Touch /etc/modprobe.d/blacklist-firewire.conf
+  file:
+    path: /etc/modprobe.d/blacklist-firewire.conf
+    state: touch
+    mode: u=rw,g=r,o=r
+
+- name: Blacklist firewire.core
+  lineinfile:
+    path: /etc/modprobe.d/blacklist-firewire.conf
+    regexp: '^blacklist.*firewire-core'
+    line: "blacklist	firewire-core"
+
+- name: Blacklist usb-storage on vms
+  lineinfile:
+    path: /etc/modprobe.d/blacklist-firewire.conf
+    regexp: '^blacklist.*usb-storage'
+    line: "blacklist    usb-storage"
+  when: "'vms' not in group_names"
+

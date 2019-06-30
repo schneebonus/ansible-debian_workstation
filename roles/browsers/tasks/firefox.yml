@@ -1,0 +1,10 @@
+- name: Install firefox
+  snap:
+    name:
+      - firefox
+
+- name: Copy Firefox desktop file
+  copy:
+    src: /var/lib/snapd/desktop/applications/firefox_firefox.desktop
+    dest: "/home/{{username}}/Applications/dmenu/firefox.desktop"
+    remote_src: yes

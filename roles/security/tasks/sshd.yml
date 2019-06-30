@@ -1,0 +1,76 @@
+- name: SSH LogLevel VERBOSE
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^LogLevel.*'
+    line: "LogLevel        VERBOSE"
+    state: present
+
+- name: SSH no X11Forwarding
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^X11Forwarding.*'
+    line: "X11Forwarding no"
+    state: present
+
+- name: SSH no tcp forwarding
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^AllowTcpForwarding.*'
+    line: "AllowTcpForwarding	no"
+    state: present
+
+- name: SSH no copression
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^Compression.*'
+    line: "Compression        no"
+    state: present
+
+- name: SSH AllowAgentForwarding no
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^AllowAgentForwarding.*'
+    line: "AllowAgentForwarding		no"
+    state: present
+
+- name: SSH UseDNS no
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^UseDNS.*'
+    line: "UseDNS         no"
+    state: present
+
+- name: SSH Banner /etc/issue
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^Banner.*'
+    line: "Banner /etc/issue"
+    state: present
+
+- name: SSH TCPKeepAlive no
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^TCPKeepAlive.*'
+    line: "TCPKeepAlive		no"
+    state: present
+
+- name: SSH MaxAuthTries 3
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^MaxAuthTries.*'
+    line: "MaxAuthTries		3"
+    state: present
+
+- name: SSH MaxSessions 2
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^MaxSessions.*'
+    line: "MaxSessions		2"
+    state: present
+
+- name: SSH ClientAliveCountMax 2
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^ClientAliveCountMax.*'
+    line: "ClientAliveCountMax	2"
+    state: present

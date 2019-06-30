@@ -1,0 +1,21 @@
+- name: Create systemd service to change mac address
+  copy:
+    src: "{{ role_path }}/files/macspoof.service"
+    dest: /etc/systemd/system/macspoof.service
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Copy macspoof script
+  copy:
+    src: "{{ role_path }}/files/macspoof"
+    dest: /usr/bin/macspoof
+    owner: root
+    group: root
+    mode: '0700'
+
+- name: enable macspoof service for pre defined interfaces
+  systemd:
+    name: "macspoof"
+    enabled: yes
+    masked: no

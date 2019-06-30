@@ -1,24 +1,3 @@
-- name: refresh all snaps
-  shell: snap refresh
+- include: firefox.yml
 
-- name: Install chromium
-  snap:
-    name:
-      - chromium
-
-- name: Copy Chromium desktop file
-  copy:
-    src: /var/lib/snapd/desktop/applications/chromium_chromium.desktop
-    dest: "/home/{{username}}/Applications/dmenu/chromium.desktop"
-    remote_src: yes
-
-- name: Install firefox
-  snap:
-    name:
-      - firefox
-
-- name: Copy Firefox desktop file                                  
-  copy:
-    src: /var/lib/snapd/desktop/applications/firefox_firefox.desktop
-    dest: "/home/{{username}}/Applications/dmenu/firefox.desktop"
-    remote_src: yes
+- include: chromium.yml

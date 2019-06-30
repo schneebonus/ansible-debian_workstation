@@ -1,0 +1,17 @@
+- name: Install security tools
+  apt:
+    name: "{{ packages }}"
+    update_cache: yes
+  vars:
+    packages:
+    - selinux-basic
+    - selinux-policy-default
+    - selinux-utils
+    - setools
+    - auditd
+
+- name: Activate selinux
+  shell: selinux-activate
+
+- name: "Change ssh_port to {{ configured port }}"
+  shell: "semanage port -a -t ssh_port_t -p tcp {{ configured_port }}"

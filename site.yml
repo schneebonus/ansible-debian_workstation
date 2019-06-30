@@ -24,6 +24,7 @@
 - hosts: lenovo_x240
   roles:
     - tlp
+    - tlp-lenovo
 
 - hosts: usb_ssd
   roles:

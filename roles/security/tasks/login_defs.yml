@@ -1,0 +1,35 @@
+- name: UMASK 027 in /etc/login.defs
+  lineinfile:
+    path: /etc/login.defs
+    regexp: '^UMASK.*'
+    line: "UMASK 027"
+    state: present
+
+- name: Password Max Age 365 days
+  lineinfile:
+    path: /etc/login.defs
+    regexp: '^PASS_MAX_DAYS.*'
+    line: "PASS_MAX_DAYS	365"
+    state: present
+
+- name: PermitRootLogin without-password
+  lineinfile:
+    path: /etc/login.defs
+    regexp: '^PermitRootLogin.*'
+    line: "PermitRootLogin	without-password"
+    state: present
+
+
+- name: Password Min Age one day
+  lineinfile:
+    path: /etc/login.defs
+    regexp: '^PASS_MIN_DAYS.*'
+    line: "PASS_MIN_DAYS        1"
+    state: present
+
+- name: Password Warn Age 14
+  lineinfile:
+    path: /etc/login.defs
+    regexp: '^PASS_WARN_AGE.*'
+    line: "PASS_WARN_AGE        14"
+    state: present

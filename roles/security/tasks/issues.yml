@@ -1,0 +1,15 @@
+- name: set /etc/issue
+  copy:
+    src: "{{ role_path }}/files/issue"
+    dest: /etc/issue
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: set /etc/issue.net
+  copy:
+    src: "{{ role_path }}/files/issue"
+    dest: /etc/issue.net
+    owner: root
+    group: root
+    mode: '0644'

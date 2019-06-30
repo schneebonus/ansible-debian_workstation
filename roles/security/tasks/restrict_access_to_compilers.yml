@@ -1,0 +1,9 @@
+- name: Restrict access to gcc
+  file:
+    path: /usr/bin/gcc
+    mode: '0500'
+
+- name: Restrict access to as
+  file:
+    path: /usr/bin/as
+    mode: '0500'

@@ -1,0 +1,9 @@
+- name: allow user null to add usb devices
+  lineinfile:
+    path: /etc/usbguard/usbguard-daemon.conf
+    state: present
+    regexp: '^IPCAllowedUsers.*'
+    line: 'IPCAllowedUsers=root {{ username }}'
+    owner: root
+    group: root
+    mode: '0600'

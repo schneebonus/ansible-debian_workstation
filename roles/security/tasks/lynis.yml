@@ -1,0 +1,10 @@
+- name: Create /opt/lynis
+  file:
+    path: /opt/lynis
+    state: directory
+    mode: '0755'
+
+- name: Clone lynis
+  git:
+    repo: 'https://github.com/CISOfy/lynis.git'
+    dest: /opt/lynis/

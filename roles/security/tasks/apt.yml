@@ -1,0 +1,26 @@
+- name: Install security tools
+  apt:
+    name: "{{ packages }}"
+    update_cache: yes
+  vars:
+    packages:
+    - firejail
+    - iptables
+    - iptables-persistent
+    - usbguard
+    - usbguard-applet-qt
+    - auditd
+    - fail2ban
+    - apt-listbugs
+    - debian-goodies
+    - needrestart
+    - debsums
+    - debsecan
+    - rkhunter
+    - chkrootkit
+    - libpam-passwdqc
+    - macchanger
+    - auditd
+    - audispd-plugins
+    - arpwatch
+    - acct

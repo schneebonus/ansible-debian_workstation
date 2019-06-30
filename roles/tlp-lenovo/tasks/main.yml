@@ -5,6 +5,8 @@
     packages:
     - tlp
     - tlp-rdw
+    - tp-smapi-dkms
+    - acpi-call-dkms
 
 - name: enable tlp service and ensure it is not masked
   systemd:

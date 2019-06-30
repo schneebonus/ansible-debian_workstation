@@ -1,0 +1,9 @@
+- name: Enforce firejail profiles
+  file:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    state: link
+  with_items:
+    - { src: /usr/bin/firejail, dest: /usr/local/bin/evince }
+    - { src: /usr/bin/firejail, dest: /usr/local/bin/whois }
+    # ToDo: enforce more programs to use firejail
