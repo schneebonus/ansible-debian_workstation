@@ -1,0 +1,18 @@
+//
+// !!! WARNING: This file is managed by Ansible, DON'T EDIT it manually !!!
+//
+ 
+// Enable unattended upgrades.
+APT::Periodic::Enable "1";
+ 
+// Do "apt-get upgrade" every n-days (0=disable).
+APT::Periodic::Unattended-Upgrade "1";
+ 
+// Do "apt-get upgrade --download-only" every n-days (0=disable).
+APT::Periodic::Update-Package-Lists "1";
+ 
+// Do "apt-get upgrade --download-only" every n-days (0=disable).
+APT::Periodic::Download-Upgradeable-Packages "1";
+ 
+// Do "apt-get autoclean" every n-days (0=disable).
+APT::Periodic::AutocleanInterval "7";

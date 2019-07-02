@@ -35,8 +35,10 @@
     - pulseaudio-utils
     - pavucontrol
     - pasystray
+    - unattended-upgrades
+    - apt-listchanges
 
-- include: user_powermanagemnt.yml
+- include: user_powermanagement.yml
 
 - include: z.yml
 

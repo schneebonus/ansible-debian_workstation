@@ -1,0 +1,36 @@
+//
+// !!! WARNING: This file is managed by Ansible, DON'T EDIT it manually !!!
+//
+ 
+Unattended-Upgrade::Origins-Pattern {
+    "o=Debian,n=${distro_codename},l=Debian-Security";
+};
+ 
+Unattended-Upgrade::Package-Blacklist {
+};
+ 
+// Automatically run "dpkg --force-confold --configure -a".
+Unattended-Upgrade::AutoFixInterruptedDpkg "true";
+ 
+// Do automatic removal of new unused dependencies after the upgrade.
+Unattended-Upgrade::Remove-Unused-Dependencies "true";
+ 
+// Install upgrades when the machine is shuting down instead of doing it in the background.
+Unattended-Upgrade::InstallOnShutdown "false";
+ 
+// Automatically reboot if the file /var/run/reboot-required is found after the upgrade.
+Unattended-Upgrade::Automatic-Reboot "false";
+ 
+// Automatically reboot even if there are users currently logged in.
+Unattended-Upgrade::Automatic-Reboot-WithUsers "true";
+ 
+// If automatic reboot is enabled and needed, reboot at the specific time.
+Unattended-Upgrade::Automatic-Reboot-Time "now";
+ 
+// Enable mail notifications.
+Unattended-Upgrade::Mail "<our-own-mail>@confirm.ch";
+Unattended-Upgrade::MailOnlyOnError "true";
+ 
+// Enable logging via syslog.
+Unattended-Upgrade::SyslogEnable "true";
+Unattended-Upgrade::SyslogFacility "daemon";

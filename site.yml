@@ -16,6 +16,7 @@
     - pdf
     - browsers
     - mullvad
+    - pentesting
 
 - hosts: vms
   roles:

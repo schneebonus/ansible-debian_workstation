@@ -1,5 +1,7 @@
 - include: apt.yml
 
+- include: unattended_upgrades.yml
+
 - include: apparmor.yml
 
 - include: firejail.yml
