@@ -1,0 +1,10 @@
+- name: Create /opt/z
+  file:
+    path: /opt/z
+    state: directory
+    mode: '0755'
+
+- name: Install rupa/z
+  git:
+    repo: 'https://github.com/rupa/z.git'
+    dest: /opt/z/

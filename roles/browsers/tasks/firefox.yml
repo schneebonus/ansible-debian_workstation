@@ -1,3 +1,12 @@
+- name: Install snapd
+  apt:
+    name: "{{ packages }}"
+    state: latest
+    update_cache: yes
+  vars:
+    packages:
+      - snapd
+
 - name: Install firefox
   snap:
     name:

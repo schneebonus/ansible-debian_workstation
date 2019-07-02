@@ -18,7 +18,7 @@
     enabled: yes
     masked: no
 
-- name: Make sure stubby service is running
+- name: Make sure stubby service is running and restarted
   systemd:
-    state: started
+    state: restarted
     name: stubby

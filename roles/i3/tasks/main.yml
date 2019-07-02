@@ -5,7 +5,6 @@
   vars:
     packages:
     - xorg
-    - xinit
     - i3
     - i3lock
     - i3status
@@ -17,14 +16,17 @@
   file:
     path: "/home/{{ username }}/.config/i3"
     state: directory
-    mode: '0755'
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0755
 
 - name: Create font directory if it does not exist
   file:
     path: "/home/{{ username }}/.fonts"
     state: directory
-    mode: '0755'
-
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0755
 
 - name: Copy i3 config files and helper scripts
   copy:
@@ -45,4 +47,3 @@
     mode: 0644
   with_fileglob:
     - "{{ role_path }}/fonts/*"
-

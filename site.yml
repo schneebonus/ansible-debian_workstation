@@ -6,15 +6,15 @@
     - greeter
     - i3
     - i3status
-    - nextcloud-client
     - zsh
+    - iptables
+    - dns-over-tls
+    - security
+    - nextcloud-client
     - communication
     - rambox
     - pdf
-    - security
-    - iptables
     - browsers
-    - dns-over-tls
     - mullvad
 
 - hosts: vms

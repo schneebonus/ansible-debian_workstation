@@ -1,3 +1,6 @@
 ---
  - name: Ensure Firewall packages are installed (Debian).
    apt: "name={{ iptables_package }} state=present"
+
+ - name: Ensure persistence packages are installed (Debian).
+   apt: "name=iptables-persistent state=present"

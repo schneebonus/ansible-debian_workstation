@@ -300,3 +300,5 @@ exec_always --no-startup-id xrandr --output DP2-2 --right-of DP2-1 --auto
 
 # exec "gpg-agent -s"
 # exec "SSH_AUTH_SOCK=/run/user/1000/gnupg/S.gpg-agent.ssh; export SSH_AUTH_SOCK;"
+
+exec aa-notify -p

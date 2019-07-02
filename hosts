@@ -2,9 +2,9 @@ vms:
   # Config for qemu/kvm workstations.
   # Test new configurations here.
   hosts:
-      debian_10_test_vm:
-        ansible_host: 192.168.122.130
-        ansible_port: 23456
+#    debian_10_selinux_vm:
+#      ansible_host: 192.168.122.174
+#      ansible_port: 33112
   vars:
     interfaces:
       - enp1s0
@@ -14,9 +14,9 @@ usb_ssd:
   # More flexible but does not include all driver
   # or interface specific changes.
   hosts:
-#      usb_ssd_workstation:
-#        ansible_host: 192.168.20.124
-#        ansible_port: 34567
+      usb_ssd_workstation:
+        ansible_host: 192.168.20.124
+        ansible_port: 34567
   vars:
     interfaces: [] # no interfaces. workstation is portable.
 

@@ -1,8 +1,6 @@
 - include: apt.yml
 
-# - include: apparmor.yml
-
-- include: selinux.yml
+- include: apparmor.yml
 
 - include: firejail.yml
 

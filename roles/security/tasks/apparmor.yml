@@ -6,6 +6,7 @@
     packages:
     - apparmor
     - apparmor-utils
+    - apparmor-notify
     - apparmor-profiles-extra
 
 - name: "Enable apparmor in grub configuration"
@@ -43,5 +44,5 @@
     remote_src: yes
   with_items: "{{ apparmor_profiles.files }}"
 
-- name: Enforce profiles
-  shell: aa-enforce /etc/apparmor.d/*
+- name: Complain profiles
+  shell: aa-complain /etc/apparmor.d/*

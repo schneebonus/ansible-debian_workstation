@@ -4,14 +4,20 @@
     update_cache: yes
   vars:
     packages:
-    - selinux-basic
-    - selinux-policy-default
+    - selinux-basics
     - selinux-utils
+    - python-selinux
     - setools
     - auditd
 
 - name: Activate selinux
   shell: selinux-activate
 
-- name: "Change ssh_port to {{ configured port }}"
+- name: "Check if ssh port has already been added"
+  shell: "semanage port -l | grep ssh | grep {{ configured_port }}"
+  register: ssh_ports
+  failed_when: ssh_ports.rc != 1 and ssh_ports.rc != 0
+
+- name: "Change ssh_port to {{ configured_port }}"
   shell: "semanage port -a -t ssh_port_t -p tcp {{ configured_port }}"
+  when: ssh_ports == ""

@@ -3,22 +3,22 @@
     state: absent
     path: "rm /home/{{ username }}/.cache/dmenu_run"
 
-- name: Change owner of users home/.config directory to user
-  file:
-    path: "/home/{{ username }}/.config"
-    state: directory
-    recurse: yes
-    owner: "{{ username }}"
-    group: "{{ username }}"
-    mode: 0600
+#- name: Change owner of users home/.config directory to user
+#  file:
+#    path: "/home/{{ username }}/.config"
+#    state: directory
+#    recurse: yes
+#    owner: "{{ username }}"
+#    group: "{{ username }}"
+#    mode: 0751
 
 - name: Clean unwanted olderstuff
   apt:
     autoremove: yes
     purge: yes
 
-- name: disable sshd service and ensure it is not masked
-  systemd:
-    name: ssh
-    enabled: no
-    masked: no
+#- name: disable sshd service and ensure it is not masked
+#  systemd:
+#    name: ssh
+#    enabled: no
+#    masked: no
