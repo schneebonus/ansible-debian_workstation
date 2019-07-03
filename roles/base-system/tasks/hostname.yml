@@ -1,0 +1,3 @@
+- name: Set system hostname to ansibles definition
+  hostname:
+    name: "{{ inventory_hostname }}"

@@ -1,5 +1,5 @@
 - name: "Allow user {{ username }} on host {{ hostname }} to shutdown, hibernate, suspend and reboot the system"
   lineinfile:
     path: /etc/sudoers
-    line: "{{ username }} {{ inventory_hostname }} =NOPASSWD: /usr/bin/systemctl shutdown,/usr/bin/systemctl suspend,/usr/bin/systemctl hibernate,/usr/bin/systemctl reboot"
+    line: "{{ username }} {{ inventory_hostname }} =NOPASSWD: {{ allowed_commands }}"
     create: yes

@@ -1,25 +1,40 @@
+# install security related packages
 - include: apt.yml
 
+# activate unattended_upgrades for daily security updates
 - include: unattended_upgrades.yml
 
+# install apparmor, clone latest profiles and enable
+# notifications in case of violations
 - include: apparmor.yml
 
+# install firejail sandbox and enforce it for some apllications
 - include: firejail.yml
 
+# set legal statements in issue files to tell attackers about consequences
+# (might be useless - but helps to improve hardening index)
 - include: issues.yml
 
+# set password policies
 - include: login_defs.yml
 
+# randomize mac address of enp* and wlp* interfaces on every boot
 - include: macspoof.yml
 
+# blacklist unneeded kernel modules to minimize attack surface
 - include: modprobe_blacklist.yml
 
+# restrict access to compilers
 - include: restrict_access_to_compilers.yml
 
+# configure sshd server
 - include: sshd.yml
 
+# set sysctl rules
 - include: sysctl.yml
 
+# install and configure usbguard to prevent badusb attacks
 - include: usbguard.yml
 
+# restrict permissions on several files
 - include: change_permissions.yml

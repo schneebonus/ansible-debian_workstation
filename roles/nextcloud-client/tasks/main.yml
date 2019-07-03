@@ -4,7 +4,17 @@
     state: directory
     mode: '0755'
 
-- name: Download nextcloud appimage
+- name: Copy get_latest_nextcloud_version.py to /tmp
+  copy:
+    src: "{{ role_path }}/files/get_latest_nextcloud_version.py"
+    dest: /tmp/get_latest_nextcloud_version.py
+    mode: '0755'
+
+- name: Find last nextcloud client version
+  shell: "python3 /tmp/get_latest_nextcloud_version.py"
+  register: script
+
+- name: "Download nextcloud appimage {{ script }}"
   get_url:
     url: "{{ nextcloud_url }}"
     dest: "/home/{{ username }}/Applications/Nextcloud.AppImage"
@@ -29,6 +39,6 @@
     state: link
 
 - name: Provide desktop file for launcher
-  template: 
-    src={{ role_path }}/templates/Nextcloud.desktop.j2 
+  template:
+    src={{ role_path }}/templates/Nextcloud.desktop.j2
     dest="/home/{{ username }}/Applications/dmenu/nextcloud.desktop"

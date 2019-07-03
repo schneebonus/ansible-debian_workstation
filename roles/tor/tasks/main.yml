@@ -1,3 +1,11 @@
+# Install torbrowser with AppArmor, in Xephyr (a virtual Xserver running on another Xserver)
+# as another user.
+# This, using AppArmor and Xephyr, shall have two effects:
+#
+# - the browser process (and it's subprocesses) can only access a tiny part of the filesystem
+# - the real Xserver is not exposed to the browser application, so hopefully that application
+#   cannot exploit bugs to grab keyboard input from other applications.
+
 - name: Touch /etc/apt/apt.conf.d/99squeeze
   file:
     path: /etc/apt/apt.conf.d/99squeeze
@@ -23,7 +31,40 @@
     packages:
     - torbrowser-launcher
 
+- name: Install packages for isolation from default repository
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - apparmor
+    - xserver-xephyr
+    - awesome
+    - sudo
+    - slay
+    - psmisc
+
 - name: Add .desktop file for torbrowser-launcher
   copy:
     src: "{{ role_path }}/files/torbrowser.desktop"
     dest: "/home/{{username}}/Applications/dmenu/torbrowser.desktop"
+
+- name: Copy wrapper scripts for AppArmor and Xephyr
+  copy:
+    src: "{{ item.src }}"
+    dest: /usr/local/bin/
+    mode: 755
+    remote_src: yes
+  with_items:
+    - { src: '/usr/share/doc/torbrowser-launcher/examples/tbb-in-xephyr'}
+    - { src: '/usr/share/doc/torbrowser-launcher/examples/tbb-l-wrapper'}
+
+- name: Add user foo
+  user:
+    name: foo
+    shell: /bin/bash
+
+- name: "Allow {{ username }} to run required commands as sudo"
+  lineinfile:
+    path: /etc/sudoers
+    line: "{{ username }} {{ inventory_hostname }} =NOPASSWD: /usr/sbin/slay foo,-i -u foo /usr/local/bin/tbb-l-wrapper"
+    create: yes

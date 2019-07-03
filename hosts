@@ -2,7 +2,7 @@ vms:
   # Config for qemu/kvm workstations.
   # Test new configurations here.
   hosts:
-    debian_buster_vm01:
+    debian-buster-vm01:
       ansible_host: 192.168.122.230
       ansible_port: 33112
   vars:
@@ -29,3 +29,4 @@ all:
   vars:
     ansible_user: root
     username: "null"
+    allowed_commands: "/usr/bin/systemctl shutdown,/usr/bin/systemctl suspend,/usr/bin/systemctl hibernate,/usr/bin/systemctl reboot"

@@ -45,3 +45,5 @@
 - include: tmpfs.yml
 
 - include: directories.yml
+
+- include: hostname.yml
