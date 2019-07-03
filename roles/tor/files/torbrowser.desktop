@@ -1,0 +1,5 @@
+[Desktop Entry]
+	Name=Tor Browser
+	Exec=torbrowser-launcher
+	Type=Application
+	Categories=BROWSER;

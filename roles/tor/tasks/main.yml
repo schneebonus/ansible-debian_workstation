@@ -1,13 +1,29 @@
-- name: Add Backport repository
+- name: Touch /etc/apt/apt.conf.d/99squeeze
+  file:
+    path: /etc/apt/apt.conf.d/99squeeze
+    state: touch
+
+- name: Set default repository to buster
+  lineinfile:
+    path: /etc/apt/apt.conf.d/99squeeze
+    regexp: '^APT::Default-Release'
+    line: 'APT::Default-Release "buster";'
+
+- name: Add experimental repository
   apt_repository:
-    repo: deb http://ftp.de.debian.org/debian/ stretch-backports main contrib non-free
+    repo: deb http://deb.debian.org/debian sid main non-free contrib
     state: present
 
-#- name: Update repositories cache and install torbrowser
-#  apt:
-#    name: "{{ packages }}"
-#    default_release: stretch-backports
-#    update_cache: yes
-#  vars:
-#    packages:
-#    - torbrowser-launcher
+- name: Update repositories cache and install torbrowser from experimental repository
+  apt:
+    name: "{{ packages }}"
+    default_release: sid
+    update_cache: yes
+  vars:
+    packages:
+    - torbrowser-launcher
+
+- name: Add .desktop file for torbrowser-launcher
+  copy:
+    src: "{{ role_path }}/files/torbrowser.desktop"
+    dest: "/home/{{username}}/Applications/dmenu/torbrowser.desktop"
