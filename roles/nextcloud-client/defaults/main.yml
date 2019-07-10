@@ -1,2 +1,0 @@
-nextcloud_version: 2.5.2
-nextcloud_url: "https://download.nextcloud.com/desktop/releases/Linux/Nextcloud-{{ nextcloud_version }}-x86_64.AppImage"

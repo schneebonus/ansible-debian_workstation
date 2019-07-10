@@ -52,7 +52,7 @@
   copy:
     src: "{{ item.src }}"
     dest: /usr/local/bin/
-    mode: 755
+    mode: 0755
     remote_src: yes
   with_items:
     - { src: '/usr/share/doc/torbrowser-launcher/examples/tbb-in-xephyr'}
@@ -63,8 +63,21 @@
     name: foo
     shell: /bin/bash
 
-- name: "Allow {{ username }} to run required commands as sudo"
+- name: Touch /etc/sudoers.d/tor
+  file:
+    path: /etc/sudoers.d/tor
+    state: touch
+
+- name: "Allow {{ username }} to run sudo slay foo"
   lineinfile:
-    path: /etc/sudoers
-    line: "{{ username }} {{ inventory_hostname }} =NOPASSWD: /usr/sbin/slay foo,-i -u foo /usr/local/bin/tbb-l-wrapper"
-    create: yes
+    mode: 0440
+    path: /etc/sudoers.d/tor
+    regexp: '^{{ username }} ALL = NOPASSWD:'
+    line: "{{ username }} ALL = NOPASSWD: /usr/sbin/slay foo"
+
+- name: "Allow {{ username }} to run /usr/local/bin/tbb-l-wrapper as user foo"
+  lineinfile:
+    mode: 0440
+    path: /etc/sudoers.d/tor
+    regexp: '^{{ username }} ALL = \(foo\) NOPASSWD:.*'
+    line: '{{ username }} ALL = (foo) NOPASSWD: /bin/bash -c /usr/local/bin/tbb-l-wrapper,/usr/local/bin/tbb-l-wrapper'

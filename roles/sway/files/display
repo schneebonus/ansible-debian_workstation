@@ -1,0 +1,21 @@
+#!/bin/sh
+
+choices="Laptop\nDock\nPresentation\nConfig"
+
+chosen=$(echo -e "$choices" | dmenu -p "Choose output:" -i -l 4)
+
+case "$chosen" in
+	Laptop) echo "Laptop Mode" \
+		&& xrandr --output eDP1 --auto \
+		&& xrandr --output DP2-1 --off \
+		&& xrandr --output DP2-2 --off ;;
+	Dock) echo "Dock Mode" \
+		&& xrandr --output eDP1 --off \
+		&& xrandr --output DP2-1 --auto \
+		&& xrandr --output DP2-2 --right-of DP2-1 --auto ;;
+	Presentation) echo "Presentation Mode" \
+		&& xrandr --output eDP1 --auto \
+		&& xrandr --output DP1 --auto;;
+	Config) echo "Manual Mode" && arandr ;;
+esac
+

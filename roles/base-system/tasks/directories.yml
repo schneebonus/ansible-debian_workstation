@@ -2,7 +2,7 @@
   file:
     path: "/home/{{username}}/Applications"
     state: directory
-    mode: '0600'
+    mode: '0751'
     owner: "{{ username }}"
     group: "{{ username }}"
 
@@ -11,6 +11,6 @@
   file:
     path: "/home/{{username}}/Applications/dmenu"
     state: directory
-    mode: '0600'
+    mode: '0751'
     owner: "{{ username }}"
     group: "{{ username }}"

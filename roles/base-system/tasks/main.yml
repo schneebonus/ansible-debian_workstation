@@ -22,8 +22,6 @@
     - tmux
     - python3-setuptools
     - python3-pip
-    - python-setuptools
-    - python-pip
     - keepassxc
     - powertop
     - sudo
@@ -37,6 +35,8 @@
     - pasystray
     - unattended-upgrades
     - apt-listchanges
+    - flatpak
+    - ranger
 
 - include: user_powermanagement.yml
 
@@ -47,3 +47,5 @@
 - include: directories.yml
 
 - include: hostname.yml
+
+- include: python3.yml

@@ -3,7 +3,7 @@
     path: "/etc/sudoers.d"
     state: directory
     recurse: yes
-    mode: 0440
+    mode: 0511
 
 - name: Change /root/.ssh to 0700
   file:

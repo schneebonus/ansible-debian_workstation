@@ -1,5 +1,11 @@
+- name: Touch /etc/sudoers.d/powermanagement
+  file:
+    path: /etc/sudoers.d/powermanagement
+    state: touch
+
 - name: "Allow user {{ username }} on host {{ hostname }} to shutdown, hibernate, suspend and reboot the system"
   lineinfile:
-    path: /etc/sudoers
-    line: "{{ username }} {{ inventory_hostname }} =NOPASSWD: {{ allowed_commands }}"
-    create: yes
+    mode: 0440
+    path: /etc/sudoers.d/powermanagement
+    regexp: '^{{ username }} ALL = NOPASSWD:'
+    line: "{{ username }} ALL = NOPASSWD: {{ allowed_commands }}"

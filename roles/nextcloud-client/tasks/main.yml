@@ -4,6 +4,14 @@
     state: directory
     mode: '0755'
 
+- name: Install pip dependencies
+  pip:
+    name: "{{ item }}"
+  with_items:
+    - requests
+    - bs4
+    - lxml
+
 - name: Copy get_latest_nextcloud_version.py to /tmp
   copy:
     src: "{{ role_path }}/files/get_latest_nextcloud_version.py"
@@ -16,7 +24,7 @@
 
 - name: "Download nextcloud appimage {{ script }}"
   get_url:
-    url: "{{ nextcloud_url }}"
+    url: "https://download.nextcloud.com/desktop/releases/Linux/Nextcloud-{{ script }}-x86_64.AppImage"
     dest: "/home/{{ username }}/Applications/Nextcloud.AppImage"
     mode: '0755'
     owner: "{{ username }}"

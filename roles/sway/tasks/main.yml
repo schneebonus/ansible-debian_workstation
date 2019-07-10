@@ -1,0 +1,212 @@
+- name: install sway dependencies and compilers
+  apt:
+    name: "{{ packages }}"
+    update_cache: yes
+  vars:
+    packages:
+    - kitty
+    - xwayland
+    - gnome-terminal
+    - dmenu
+    - rofi
+    - build-essential
+    - cmake
+    - meson
+    - libwayland-dev
+    - wayland-protocols
+    - libegl1-mesa-dev
+    - libgles2-mesa-dev
+    - libdrm-dev
+    - libgbm-dev
+    - libinput-dev
+    - libxkbcommon-dev
+    - libudev-dev
+    - libpixman-1-dev
+    - libsystemd-dev
+    - libcap-dev
+    - libxcb1-dev
+    - libxcb-composite0-dev
+    - libxcb-xfixes0-dev
+    - libxcb-xinput-dev
+    - libxcb-image0-dev
+    - libxcb-render-util0-dev
+    - libx11-xcb-dev
+    - libxcb-icccm4-dev
+    - freerdp2-dev
+    - libwinpr2-dev
+    - libpng-dev
+    - libavutil-dev
+    - libavcodec-dev
+    - libavformat-dev
+    - universal-ctags
+    - autoconf
+    - libtool
+    - libpcre3-dev
+    - libcairo2-dev
+    - libpango1.0-dev
+    - libgdk-pixbuf2.0-dev
+    - imagemagick
+    - grim
+
+- name: Touch /etc/apt/apt.conf.d/99squeeze
+  file:
+    path: /etc/apt/apt.conf.d/99squeeze
+    state: touch
+
+- name: Set default repository to buster
+  lineinfile:
+    path: /etc/apt/apt.conf.d/99squeeze
+    regexp: '^APT::Default-Release'
+    line: 'APT::Default-Release "buster";'
+
+- name: Add experimental repository
+  apt_repository:
+    repo: deb http://deb.debian.org/debian experimental main non-free contrib
+    state: present
+
+- name: Update repositories cache and install wlroots from experimental repository
+  apt:
+    name: "{{ packages }}"
+    default_release: experimental
+    update_cache: yes
+  vars:
+    packages:
+    - libwlroots3
+    - libjson-c-dev
+
+- name: Update repositories cache and install sway* from sid repository
+  apt:
+    name: "{{ packages }}"
+    default_release: sid
+    update_cache: yes
+  vars:
+    packages:
+    - swaylock
+    - swayidle
+    - swaybg
+    - sway-backgrounds
+
+- name: Create i3 config directory if it does not exist
+  file:
+    path: "/home/{{ username }}/.config/i3"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0755
+
+- name: Create font directory if it does not exist
+  file:
+    path: "/home/{{ username }}/.fonts"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0755
+
+- name: Copy i3 config files and helper scripts
+  copy:
+    src: "{{ item }}"
+    dest: "/home/{{ username }}/.config/i3/"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0755
+  with_fileglob:
+    - "{{ role_path }}/files/*"
+
+- name: Copy fonts
+  copy:
+    src: "{{ item }}"
+    dest: "/home/{{ username }}/.fonts/"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: 0644
+  with_fileglob:
+    - "{{ role_path }}/fonts/*"
+
+# cd ~/sway-src
+# git clone https://github.com/swaywm/wlroots.git
+# cd wlroots
+# git checkout 0.6.0
+# meson build
+# sudo ninja -C build install
+
+- name: Clone wlroots repo
+  git:
+    repo: 'https://github.com/swaywm/wlroots.git'
+    dest:  "/home/{{ username }}/sway-src/wlroots"
+  become: yes
+  become_user: "{{ username }}"
+
+- name: Build wlroots
+  shell:
+    cmd: meson build
+    chdir: "/home/{{ username }}/sway-src/wlroots"
+  become: yes
+  become_user: "{{ username }}"
+
+- name: Ninja wlroots
+  shell:
+    cmd: ninja -C build install
+    chdir: "/home/{{ username }}/sway-src/wlroots"
+
+- name: Clone Sway repo
+  git:
+    repo: 'https://github.com/swaywm/sway.git'
+    dest:  "/home/{{ username }}/sway-src/sway"
+  become: yes
+  become_user: "{{ username }}"
+
+- name: Build Sway
+  shell:
+    cmd: meson build
+    chdir: "/home/{{ username }}/sway-src/sway"
+  become: yes
+  become_user: "{{ username }}"
+
+- name: Ninja Sway
+  shell:
+    cmd: ninja -C build install
+    chdir: "/home/{{ username }}/sway-src/sway"
+
+- name: Clone Sway-bg repo
+  git:
+    repo: 'https://github.com/swaywm/swaybg.git'
+    dest:  "/home/{{ username }}/sway-src/swaybg"
+  become: yes
+  become_user: "{{ username }}"
+
+- name: Build Swaybg
+  shell:
+    cmd: meson build
+    chdir: "/home/{{ username }}/sway-src/swaybg"
+  become: yes
+  become_user: "{{ username }}"
+
+- name: Ninja Swaybg
+  shell:
+    cmd: ninja -C build install
+    chdir: "/home/{{ username }}/sway-src/sway"
+
+- name: Set wayland default for qt
+  lineinfile:
+    path: "/home/{{ username }}/.zshrc"
+    regexp: '^QT_QPA_PLATFORM='
+    line: "QT_QPA_PLATFORM=wayland"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+
+- name: Remove qt borders
+  lineinfile:
+    path: "/home/{{ username }}/.zshrc"
+    regexp: '^QT_WAYLAND_DISABLE_WINDOWDECORATION='
+    line: 'QT_WAYLAND_DISABLE_WINDOWDECORATION="1"'
+    owner: "{{ username }}"
+    group: "{{ username }}"
+
+- name: Fix DPI for X windows
+  lineinfile:
+    path: "/home/{{ username }}/.Xresources"
+    regexp: '^Xft.dpi:'
+    line: 'Xft.dpi: 96'
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    create: yes

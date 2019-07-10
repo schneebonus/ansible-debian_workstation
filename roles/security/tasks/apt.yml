@@ -14,8 +14,6 @@
     - apt-listbugs
     - debian-goodies
     - needrestart
-    - debsums
-    - debsecan
     - rkhunter
     - chkrootkit
     - libpam-passwdqc

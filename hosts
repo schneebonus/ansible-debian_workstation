@@ -3,7 +3,7 @@ vms:
   # Test new configurations here.
   hosts:
     debian-buster-vm01:
-      ansible_host: 192.168.122.230
+      ansible_host: 192.168.122.110
       ansible_port: 33112
   vars:
     interfaces:
@@ -29,4 +29,5 @@ all:
   vars:
     ansible_user: root
     username: "null"
+    ansible_python_interpreter: /usr/bin/python3
     allowed_commands: "/usr/bin/systemctl shutdown,/usr/bin/systemctl suspend,/usr/bin/systemctl hibernate,/usr/bin/systemctl reboot"

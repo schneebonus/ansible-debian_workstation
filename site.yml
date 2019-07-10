@@ -3,14 +3,16 @@
   roles:
     - ssh
     - base-system
-    - greeter
-    - i3
+#    - greeter
+#    - i3
+#    - i3status
+    - sway
     - i3status
     - zsh
     - iptables
     - dns-over-tls
     - security
-    - nextcloud-client
+    - nextcloud-client-flatpak
     - communication
     - rambox
     - pdf

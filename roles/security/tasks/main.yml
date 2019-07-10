@@ -38,3 +38,6 @@
 
 # restrict permissions on several files
 - include: change_permissions.yml
+
+# install lynis security scanner
+- include: lynis.yml

@@ -1,0 +1,21 @@
+- name: Remove old link to python
+  file:
+    path: /usr/bin/python
+    state: absent
+
+- name: Remove old link to pip
+  file:
+    path: /usr/bin/pip
+    state: absent
+
+- name: Create a symbolic link for python3
+  file:
+    src: /usr/bin/python3
+    dest: /usr/bin/python
+    state: link
+
+- name: Create a symbolic link for pip3
+  file:
+    src: /usr/bin/pip3
+    dest: /usr/bin/pip
+    state: link
